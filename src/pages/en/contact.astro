@@ -1,0 +1,22 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import LegalIdentity from '../../components/LegalIdentity.astro';
+import { CONTACT_EMAIL, LAST_UPDATED, SITE_NAMES } from '../../data/site-config';
+import { route } from '../../i18n/routes';
+const lang = 'en';
+---
+<PageLayout title={`Contact ${SITE_NAMES[lang]}: a rule, a figure, the widget`} description="Write to Pension Estate Tax when a figure or a rule on inheritance tax and pensions looks wrong, when HMRC publishes new guidance, or to embed the estate calculator on your site." lang={lang} noindex={true} breadcrumbs={[{ label: 'Contact' }]} showAuthor={false}>
+  <div class="prose prose-slate max-w-none">
+    <h1>Contact</h1>
+    <p>Email: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. A person reads every message.</p>
+    <h2>A figure or a rule looks wrong</h2>
+    <p>Send the page address, the values you entered and the figure you expected, with the section of the Act or the HMRC page you are relying on if you have it. We reread the source, correct the parameter file or the engine, add a test for the case and date the change. When HMRC publishes its regulations and forms for pensions in the estate, we update the pages the week they appear.</p>
+    <h2>What we cannot do</h2>
+    <p>We do not give personal advice and we cannot look at a real estate, a will, a pension nomination or an inheritance tax account. Please do not send names, National Insurance numbers, scheme references or documents. Questions about an estate go to its personal representatives; questions about a pension go to the scheme administrator; a solicitor, a chartered tax adviser or a regulated financial adviser can review a plan. MoneyHelper, the government-backed guidance service, offers free general guidance on pensions.</p>
+    <h2>Using the calculator on your own site</h2>
+    <p>Probate practitioners, pension forums, local advice centres and personal finance writers can show the estate calculator in an iframe at no cost. The code and the conditions are on the <a href={route('widget', lang)}>embed page</a>.</p>
+    <h2>Publisher</h2>
+    <LegalIdentity lang={lang} />
+    <p>Updated: {LAST_UPDATED}.</p>
+  </div>
+</PageLayout>

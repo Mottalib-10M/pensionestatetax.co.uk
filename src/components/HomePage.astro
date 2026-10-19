@@ -1,0 +1,221 @@
+---
+/**
+ * Home: the estate calculator on the first screen, then a reference page on pensions in the estate from
+ * 6 April 2027 (RECETTE §5, §21). Layout of its own: a dated timeline, a rate ladder, four families
+ * side by side, an in/out ledger and a deadline strip. Every figure comes from the engine or the parameter file.
+ */
+import PageLayout from '../layouts/PageLayout.astro';
+import Tool from './Tool.astro';
+import { route } from '../i18n/routes';
+import { PAGES } from '../lib/guides';
+import { groupLabel, GROUPS_ORDER } from '../i18n/nav';
+import { helpers } from '../lib/helpers';
+import { LAST_UPDATED, AUTHOR_NAME } from '../data/site-config';
+import { displayDate } from '../lib/format';
+import { faqSchema, webApplicationSchema, websiteSchema, organizationSchema } from '../lib/seo';
+const lang = 'en';
+const h = helpers(true);
+const { P, E, m, pc } = h;
+const I = P.iht, N = P.pensions, IT = P.incomeTax;
+const ruk = IT.ruk.bands, sco = IT.scotland.bands;
+const nSrc = Object.keys(P.sources).length;
+
+// The calculator's own default case, so the text below matches what the reader sees first.
+const def = h.run({ home: 400000, savings: 100000, pension: 300000, status: 'single', homeToDescendants: true, heirs: 2 }, { age: 78, heirIncome: 45000 });
+
+// Four families, computed by the engine.
+const fam = [
+  { who: 'Widowed parent, both bands inherited from the late spouse', note: 'home £450,000 to two children, savings £250,000, pension £600,000, death at 80, heirs earning £45,000',
+    r: h.run({ home: 450000, savings: 250000, pension: 600000, status: 'widowed', transferNrb: 1, transferRnrb: 1, homeToDescendants: true, heirs: 2 }, { age: 80, heirIncome: 45000 }) },
+  { who: 'Single, no children, estate to a niece and a nephew', note: 'home £300,000, savings £100,000, pension £250,000, death at 70, heirs earning £30,000',
+    r: h.run({ home: 300000, savings: 100000, pension: 250000, status: 'single', homeToDescendants: false, heirs: 2 }, { age: 70, heirIncome: 30000 }) },
+  { who: 'Large estate crossing the taper', note: 'widowed, home £900,000, savings £600,000, pension £900,000, three children earning £130,000, death at 78',
+    r: h.run({ home: 900000, savings: 600000, pension: 900000, status: 'widowed', transferNrb: 1, transferRnrb: 1, homeToDescendants: true, heirs: 3 }, { age: 78, heirIncome: 130000 }) },
+  { who: 'Married, estate to the spouse, pension to the children', note: 'home £500,000 and savings £200,000 to the spouse, pension £600,000 to two children earning £50,000, death at 77',
+    r: h.run({ home: 500000, savings: 200000, pension: 600000, status: 'married', spouseEstate: 1, spousePension: 0, homeToDescendants: false, heirs: 2 }, { age: 77, heirIncome: 50000 }) },
+];
+
+// Rate ladder: £1 of pension inherited from a member who died at 75 or over.
+const zone = E.marginalRate(110000);
+const ladder = [
+  { band: 'Heir pays no income tax', mr: 0 },
+  { band: `Basic rate, ${pc(ruk[0].rate)}`, mr: ruk[0].rate },
+  { band: `Higher rate, ${pc(ruk[1].rate)}`, mr: ruk[1].rate },
+  { band: `Additional rate, ${pc(ruk[2].rate)}`, mr: ruk[2].rate },
+  { band: `Scottish top rate, ${pc(sco[5].rate)}`, mr: sco[5].rate },
+  { band: 'Personal Allowance taper zone', mr: zone },
+].map((x) => ({ ...x, c: E.combinedRate(I.rate, x.mr), w: Math.round(E.combinedRate(I.rate, x.mr) * 100) }));
+const top = E.combinedRate(I.rate, ruk[2].rate);
+
+// The same pot left at 74 and at 76.
+const pot = { home: 350000, savings: 250000, pension: 500000, status: 'single' as const, homeToDescendants: true, heirs: 2 };
+const at74 = h.run(pot, { age: 74, heirIncome: 60000 });
+const at76 = h.run(pot, { age: 76, heirIncome: 60000 });
+
+// Taper: where the residence band runs out.
+const goneSingle = I.taperThreshold + I.rnrb * I.taperDivisor;
+const goneDouble = I.taperThreshold + 2 * I.rnrb * I.taperDivisor;
+
+const faqs = [
+  { q: 'How much inheritance tax will my family pay on my pension after April 2027?', a: `Enter the home, the savings and the pension in the calculator above. From ${h.D.from} the pension is added to the estate, the nil-rate band of ${m(I.nrb)} and, when a home goes to children or grandchildren, up to ${m(I.rnrb)} of residence band come off, and the rest is taxed at ${pc(I.rate)}. The pension carries its share of that tax, worked out at the estate's average rate.` },
+  { q: 'Is it true that inherited pensions can be taxed at 67 %?', a: `Yes, when the member died at ${N.deathAgeIncomeTax} or over and the heir pays the additional rate. Inheritance tax takes ${pc(I.rate)} first; the heir then pays income tax only on what is left, because the Finance Act 2026 deducts the inheritance tax borne. That gives ${pc(top)}. A higher rate taxpayer loses ${pc(E.combinedRate(I.rate, ruk[1].rate))}, a basic rate taxpayer ${pc(E.combinedRate(I.rate, ruk[0].rate))}.` },
+  { q: 'Until when is the inheritance tax threshold frozen?', a: `Until ${h.D.freeze}, the end of the ${I.frozenUntilTaxYear} tax year. Section 72 of the Finance Act 2026 extended the freeze by one more year, so the ${m(I.nrb)} nil-rate band and the ${m(I.rnrb)} residence band stay where they are for every death up to that date. Pages giving 2028 or 2030 as the end of the freeze were written before the Act.` },
+  { q: 'Does a pension left to my wife or husband pay inheritance tax from 2027?', a: `No. Section 69 of the Finance Act 2026 extends the spouse and civil partner exemption to pension benefits, so a pot that passes to a surviving spouse is free of inheritance tax at the first death. The pot then sits in the survivor's estate, and it is at the second death that the new rules usually bite, with both sets of bands available.` },
+  { q: 'Who pays the inheritance tax on a pension, the executors or the pension scheme?', a: `The personal representatives report it and are liable for it, together with the beneficiary who receives the pension. The scheme's trustees are not liable. The representatives can tell the scheme to hold back half of each payment for up to ${N.withholdMonths} months after the end of the month of death, and they or a beneficiary can ask the scheme to pay the tax directly if it is ${m(N.directPaymentMin)} or more.` },
+  { q: 'Can I avoid the 2027 pension inheritance tax by taking my tax-free cash now?', a: `Taking the tax-free lump sum moves money out of the pension, but it lands in your estate as cash, which is taxed in the same way. It only changes the inheritance tax if the money is then spent or given away and the gift falls outside the estate. The lump sum is capped at ${m(N.lumpSumAllowance)} in most cases; any drawing above it is taxed as income.` },
+  { q: 'Does my death in service benefit count for inheritance tax?', a: 'Not when it is paid because you were working for the employer when you died: the Finance Act 2026 lists death in service benefits among the excluded benefits, with dependants\' scheme pensions and joint life annuities. A lump sum from a former employer\'s scheme, where you were a deferred member, is not excluded, and neither is a refund of contributions that would have been paid anyway.' },
+];
+const jsonLd = [webApplicationSchema({ name: 'Pension inheritance tax calculator 2027', description: 'Inheritance tax on an estate with its pension, before and from 6 April 2027, and the income tax each heir pays.', path: route('home', lang), lang }), websiteSchema(lang), organizationSchema(lang), faqSchema(faqs, lang)];
+const groups = GROUPS_ORDER.map((g) => ({ g, pages: PAGES.filter((p) => p.group === g) })).filter((x) => x.pages.length);
+---
+<PageLayout title="Pension IHT 2027: Inheritance Tax on Pensions Calculator" description="Pension IHT from April 2027: inheritance tax on an estate with its pension under the Finance Act 2026, the heirs' income tax after 75 and what each heir keeps." lang={lang} jsonLd={jsonLd} faqs={faqs}>
+  <header class="mb-3">
+    <h1 class="text-[1.75rem] font-bold text-navy-900 max-sm:leading-tight sm:text-3xl md:text-4xl">Pension inheritance tax from April 2027: what your heirs will keep</h1>
+    <p class="mt-2 text-base text-navy-700 sm:text-lg">Your home, your savings and your pension, your family, your age at death. Both taxes are worked out under the law as passed, for a death before and after the change.</p>
+  </header>
+  <div data-outil class="mb-4"><Tool tool={{ kind: 'iht' }} primary={true} /></div>
+  <p class="mb-8 text-sm text-navy-600">Rules read on legislation.gov.uk and GOV.UK, updated <time datetime={LAST_UPDATED}>{displayDate(LAST_UPDATED, 'en-GB')}</time> · {AUTHOR_NAME} · <a href={route('method', lang)} class="underline hover:text-navy-900">How the tax is worked out</a> · <a href={route('about', lang)} class="underline hover:text-navy-900">Who publishes this site</a></p>
+
+  <div class="prose prose-slate max-w-none">
+    <p>This site does better than the first Google result because it puts the pension into the estate exactly as the Finance Act 2026 does for deaths from {h.D.from}, with the bands frozen until {h.D.freeze}, and then works out, with no form to fill in, both the inheritance tax and the income tax each heir pays on the pension (section 567B), by their tax band and by the age at death. GOV.UK's impact note explains the policy without a single calculation. The pension providers and wealth managers that rank next mostly describe the change, some still as a proposal, several with the wrong end date for the frozen thresholds, and the calculators they offer either leave the pension out of the estate or ask for a phone number before showing a result.</p>
+    <p>The case already loaded in the calculator is a single person with a {m(400000)} home left to two children, {m(100000)} of savings and a {m(300000)} pension, who dies at 78. On a death before the change the estate pays {m(def.before.iht)}; from {h.D.from} it pays {m(def.after.iht)}, of which {m(def.after.ihtOnPension)} falls on the pension. Each child, earning {m(45000)} a year, then pays {m(def.heirsAfter.incomeTaxShare)} of income tax on their share of the pot if they draw it in one tax year, and keeps {m(def.heirsAfter.total)} in all, against {m(def.heirsBefore.total)} under the old rules. Change any field and every line moves.</p>
+  </div>
+
+  <section class="not-prose my-10" aria-labelledby="dates-title">
+    <h2 id="dates-title" class="text-2xl font-bold text-navy-900">Five dates that decide the tax</h2>
+    <ol class="mt-5 border-l-2 border-accent-600 pl-5">
+      <li class="pb-5"><p class="text-sm font-semibold uppercase tracking-wide text-accent-700">{h.date(N.budget2024)}</p><p class="mt-1 text-navy-800">The Autumn Budget announces that unused pension funds and death benefits will be brought into the estate. A consultation on how follows, and in July 2025 the government moves the duty to pay from the schemes to the personal representatives.</p></li>
+      <li class="pb-5"><p class="text-sm font-semibold uppercase tracking-wide text-accent-700">{h.D.assent}</p><p class="mt-1 text-navy-800">The Finance Act 2026 receives Royal Assent. Sections 66 to 71 write the change into the Inheritance Tax Act 1984 and the income tax rules; section 72 extends the freeze of the thresholds.</p></li>
+      <li class="pb-5"><p class="text-sm font-semibold uppercase tracking-wide text-accent-700">{h.date(P.valid_to)}</p><p class="mt-1 text-navy-800">The last day of the old rules. A member who dies on or before this day leaves a discretionary pension outside the estate, whenever the money is paid out.</p></li>
+      <li class="pb-5"><p class="text-sm font-semibold uppercase tracking-wide text-accent-700">{h.D.from}</p><p class="mt-1 text-navy-800">From this day the pension counts. The date of death decides, not the date of probate or the date the scheme pays.</p></li>
+      <li><p class="text-sm font-semibold uppercase tracking-wide text-accent-700">{h.D.freeze}</p><p class="mt-1 text-navy-800">The end of the freeze written into the law: until then the nil-rate band stays at {m(I.nrb)} and the residence band at {m(I.rnrb)}. Any change after that date has to be announced and is to come.</p></li>
+    </ol>
+  </section>
+
+  <div class="prose prose-slate max-w-none">
+    <h2>What the Act brings into the estate, and what it leaves out</h2>
+    <p>The new section 150A of the Inheritance Tax Act treats the member as owning, just before death, a "notional pension property": the value of every registered scheme, qualifying overseas scheme or section 615 scheme that can be paid out on death. For a pot (a personal pension, a SIPP, most workplace schemes) it is what is left in the pot, whether it was untouched or already in drawdown. For a final salary scheme it is the lump sums payable on death, such as a refund of contributions or the remaining guarantee of a pension in payment. A scheme that has discretion over who receives the money no longer keeps it out of the estate.</p>
+  </div>
+  <div class="not-prose my-6 grid gap-6 md:grid-cols-2">
+    <div class="rounded-lg border border-navy-200 p-5">
+      <h3 class="text-lg font-semibold text-navy-900">Counted in the estate from {h.D.from}</h3>
+      <ul class="mt-3 list-disc space-y-2 pl-5 text-navy-800">
+        <li>an unused personal pension, SIPP or workplace pot;</li>
+        <li>a drawdown fund, whether the member or a beneficiary was drawing it;</li>
+        <li>lump sum death benefits of a final salary scheme, including a refund of contributions;</li>
+        <li>a lump sum from a former employer's scheme where the member was a deferred member;</li>
+      </ul>
+    </div>
+    <div class="rounded-lg border border-navy-200 p-5">
+      <h3 class="text-lg font-semibold text-navy-900">Never counted</h3>
+      <ul class="mt-3 list-disc space-y-2 pl-5 text-navy-800">
+        <li>a widow's, widower's or child's pension paid by the scheme (dependants' scheme pension);</li>
+        <li>a small lump sum paid instead of such a dependants' pension;</li>
+        <li>a joint life annuity bought together with the member's own annuity;</li>
+        <li>death in service benefits from the job the member held when they died;</li>
+        <li>the State Pension, which stops at death.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="prose prose-slate max-w-none">
+    <p>Pension money passed to a spouse, a civil partner or a charity stays exempt, as section 69 of the Act extends the existing exemptions to it. Business and agricultural property relief and payment in instalments over ten years are not available for the pension part; quick succession relief is. The <Fragment set:html={h.a('pension-death-benefits-excluded', 'guide to excluded benefits')} /> and the <Fragment set:html={h.a('defined-benefit-pension-inheritance-tax', 'page on final salary schemes')} /> go through each case.</p>
+
+    <h2>How the tax is shared between the pension and the rest</h2>
+    <p>The pension is not taxed on its own. It is added to the home and the savings, the bands come off the total, and the tax is spread across everything chargeable in proportion to its value. In the default case above, the estate's average rate after the change is {pc(def.after.estateRate, 1)}, so the pension carries {pc(def.after.estateRate, 1)} of its value as inheritance tax and the rest of the estate the same rate on its own value. Nothing in the law lets the home use up the bands first and leave the pension to pay the whole bill, or the reverse.</p>
+    <p>That spreading matters for families where the pension goes to one person and the house to another: the beneficiary of the pension bears the pension's share. The representatives can recover it from them, or have the scheme pay it, as explained below. The <Fragment set:html={h.a('inheritance-tax-on-pensions', 'main guide to the new rules')} /> shows the effect for pots of different sizes.</p>
+  </div>
+
+  <section class="not-prose my-10" aria-labelledby="ladder-title">
+    <h2 id="ladder-title" class="text-2xl font-bold text-navy-900">What is left of £1 of pension when the member died at {N.deathAgeIncomeTax} or over</h2>
+    <p class="mt-2 max-w-3xl text-navy-700">Inheritance tax at {pc(I.rate)} comes first, then the heir's income tax on what remains: the Finance Act 2026 deducts the inheritance tax already borne from the taxable pension (ITEPA 2003 section 567B). The bar is the combined loss; the figure on the right is what the heir keeps.</p>
+    <dl class="mt-5 space-y-2">
+      {ladder.map((x) => (
+        <div class="grid grid-cols-[minmax(8rem,13rem)_minmax(0,1fr)_5.5rem] items-center gap-3 text-sm">
+          <dt class="font-medium text-navy-900">{x.band}</dt>
+          <dd class="h-6 rounded-sm bg-navy-100"><span class="block h-6 rounded-sm bg-accent-600" style={`width:${x.w}%`}></span></dd>
+          <dd class="text-right tabular-nums text-navy-800">{pc(x.c, 1)} <span class="block text-xs text-navy-600">keeps {m(100 * (1 - x.c))} of {m(100)}</span></dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <div class="prose prose-slate max-w-none">
+    <p>The often quoted "up to 67 %" is the additional rate case: {pc(I.rate)} plus {pc(ruk[2].rate)} of the remaining {pc(1 - I.rate)}, which is {pc(top)}. It is not the ceiling. An heir in Scotland on the top rate loses {pc(E.combinedRate(I.rate, sco[5].rate), 1)}. An heir whose income, once the pension is added, lands between {m(IT.paTaperFrom)} and the point where the Personal Allowance disappears pays an effective {pc(zone)} on that slice, because £1 of allowance goes for every £2 of income, and the slice loses {pc(E.combinedRate(I.rate, zone))}. Drawing the pension over several tax years can keep an heir out of that zone, which is why the calculator lets you spread the drawing; the <Fragment set:html={h.a('inheritance-tax-on-pensions-after-75', 'page on pensions after 75')} /> has the detail.</p>
+
+    <h2>The birthday that changes the income tax</h2>
+    <p>Age at death has no effect on inheritance tax. It has a large effect on the income tax that follows. When the member dies before {N.deathAgeIncomeTax}, a lump sum paid to the heirs within {N.lumpSumPaidWithinYears} years of the scheme being told is free of income tax up to the member's lump sum and death benefit allowance of {m(N.lsdba)}, tested after the inheritance tax, and a beneficiary drawdown fund pays out tax free. When the member dies at {N.deathAgeIncomeTax} or later, every payment is taxed as the heir's income.</p>
+    <p>Take a single person with a {m(350000)} home left to two children, {m(250000)} of savings and a {m(500000)} pension, the children earning {m(60000)} each. The inheritance tax is {m(at74.after.iht)} whether death comes at 74 or at 76. At 74 the children pay no income tax on the pension and keep {m(at74.heirsAfter.total)} each. At 76, drawing their share in one tax year, they pay {m(at76.heirsAfter.incomeTaxShare)} each and keep {m(at76.heirsAfter.total)}. The <Fragment set:html={h.a('pension-death-before-75', 'page on deaths before 75')} /> explains the allowance and the two year limit.</p>
+  </div>
+
+  <section class="not-prose my-10" aria-labelledby="families-title">
+    <h2 id="families-title" class="text-2xl font-bold text-navy-900">Four families, before and after the change</h2>
+    <p class="mt-2 max-w-3xl text-navy-700">Each line is computed by the same engine as the calculator, with the heirs drawing the pension in one tax year.</p>
+    <div class="mt-5 grid gap-4 md:grid-cols-2">
+      {fam.map((f) => (
+        <article class="rounded-lg border border-navy-200 p-5">
+          <h3 class="font-semibold text-navy-900">{f.who}</h3>
+          <p class="mt-1 text-sm text-navy-600">{f.note}</p>
+          <dl class="mt-3 grid grid-cols-[1fr_auto_auto] gap-x-4 gap-y-1 text-sm tabular-nums">
+            <dt class="text-navy-600"></dt><dd class="text-right text-xs uppercase tracking-wide text-navy-600">Before</dd><dd class="text-right text-xs uppercase tracking-wide text-navy-600">From 2027</dd>
+            <dt class="text-navy-800">Inheritance tax</dt><dd class="text-right">{m(f.r.before.iht)}</dd><dd class="text-right font-semibold text-navy-900">{m(f.r.after.iht)}</dd>
+            <dt class="text-navy-800">Heirs' income tax</dt><dd class="text-right">{m(f.r.heirsBefore.totalIncomeTax)}</dd><dd class="text-right font-semibold text-navy-900">{m(f.r.heirsAfter.totalIncomeTax)}</dd>
+            <dt class="text-navy-800">Tax-free bands</dt><dd class="text-right">{m(f.r.before.threshold)}</dd><dd class="text-right">{m(f.r.after.threshold)}</dd>
+          </dl>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <div class="prose prose-slate max-w-none">
+    <p>The second family shows the residence band going unused: a home left to a niece and a nephew does not qualify, because only children, grandchildren and other direct descendants, with their spouses, count. The third shows the taper: an estate above {m(I.taperThreshold)} loses £1 of residence band for every £{I.taperDivisor} above it, so a single person's band is gone at {m(goneSingle)} and a widowed person's doubled band at {m(goneDouble)}. Because the pension now counts in the estate for the taper as well, a pot can remove the residence band from a family that kept it under the old rules. The fourth family leaves the home and savings to the spouse, which is exempt, and the pension to the children, which is not: the home no longer earns a residence band, because it does not go to descendants, and the pension alone uses up the nil-rate band. Leaving everything to the spouse would cost nothing at the first death, but the survivor's estate would then be larger at the second. The pages on the <Fragment set:html={h.a('residence-nil-rate-band', 'residence nil-rate band')} />, its <Fragment set:html={h.a('residence-nil-rate-band-taper', 'taper above £2 million')} /> and the <Fragment set:html={h.a('transferable-nil-rate-band', 'transfer of unused bands')} /> take each rule in turn.</p>
+
+    <h2>Thresholds that do not move</h2>
+    <p>The nil-rate band is {m(I.nrb)} and the residence band {m(I.rnrb)}, and neither rises with prices. Section 86 of the Finance Act 2021, as amended by the Finance Acts of 2023, 2025 and 2026, switches off the indexation that would otherwise raise them each April, now up to and including {I.frozenUntilTaxYear}. A home and savings that grow with prices, and a pension that grows with markets, cross a fixed line sooner each year. The <Fragment set:html={h.a('inheritance-tax-threshold', 'threshold page')} /> has the bands for {P.taxYear} and the <Fragment set:html={h.a('inheritance-tax-threshold-freeze', 'freeze page')} /> shows how far an estate moves while they stand still. Any figure for the years after the freeze has not been announced and is to come.</p>
+    <p>A lower rate of {pc(I.charityRate)} applies when at least {pc(I.charityTest)} of the baseline amount of the estate goes to charity, and pension money nominated to a charity counts towards that test. The <Fragment set:html={h.a('inheritance-tax-charity-rate', 'charity rate page')} /> works through the baseline, which deducts the nil-rate band but not the residence band.</p>
+  </div>
+
+  <section class="not-prose my-10" aria-labelledby="clock-title">
+    <h2 id="clock-title" class="text-2xl font-bold text-navy-900">After a death: the clock for executors and schemes</h2>
+    <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="rounded-lg bg-navy-50 p-4"><p class="text-2xl font-bold tabular-nums text-accent-700">{I.paymentMonths} months</p><p class="mt-1 text-sm text-navy-800">Inheritance tax is due by the end of the sixth month after the month of death. Interest runs after that.</p></div>
+      <div class="rounded-lg bg-navy-50 p-4"><p class="text-2xl font-bold tabular-nums text-accent-700">{pc(N.withholdShare)}</p><p class="mt-1 text-sm text-navy-800">The most a scheme may pay out while a withholding notice from the representatives has effect.</p></div>
+      <div class="rounded-lg bg-navy-50 p-4"><p class="text-2xl font-bold tabular-nums text-accent-700">{N.withholdMonths} months</p><p class="mt-1 text-sm text-navy-800">The longest a withholding notice can last, counted from the end of the month of death.</p></div>
+      <div class="rounded-lg bg-navy-50 p-4"><p class="text-2xl font-bold tabular-nums text-accent-700">{N.directPaymentDays} days</p><p class="mt-1 text-sm text-navy-800">The time a scheme has to pay the tax to HMRC under a payment notice of {m(N.directPaymentMin)} or more.</p></div>
+    </div>
+  </section>
+
+  <div class="prose prose-slate max-w-none">
+    <p>Under section 67 of the Act, the personal representatives are liable for the tax on the pension, alongside the beneficiary in whom it vests; the trustees of a registered scheme are not, unless the administrator pays out in breach of a notice. Representatives who have obtained a certificate of discharge are not liable for a pension found later, unless they were careless, but the beneficiary stays liable. A practical point for families: most of the money in a large estate may be in the pension, which the executors do not control. The withholding and payment notices exist so the tax can be paid from the pot itself rather than from the executors' own pockets. HMRC has said it will publish information regulations and tools for representatives by April 2027; until then the forms are to come. The <Fragment set:html={h.a('who-pays-inheritance-tax-on-pensions', 'page on who pays')} /> follows the process step by step.</p>
+
+    <h2>Options families look at, set out as information</h2>
+    <p>The change has led many people to revisit how they draw their pension and what they give away. None of what follows is a recommendation: each has costs and conditions, and a solicitor, a chartered tax adviser or a regulated financial adviser is the person to look at a real case.</p>
+    <ul>
+      <li><strong>Gifts out of income.</strong> Regular gifts made from income, which leave the giver able to keep their usual standard of living, are exempt with no limit and no seven year wait. HMRC says the 2027 change does not alter that rule, and whether gifts funded by pension withdrawals qualify depends on the facts. See <Fragment set:html={h.a('gifts-from-income-inheritance-tax', 'gifts from income')} />.</li>
+      <li><strong>Lifetime gifts and the seven years.</strong> A gift to a person is outside the estate if the giver lives seven years; a gift above the nil-rate band made three to seven years before death pays a reduced rate, from {pc(I.rate * I.taper[1].share)} down to {pc(I.rate * I.taper[4].share)}. See the <Fragment set:html={h.a('seven-year-rule-inheritance-tax', 'seven year rule')} /> and the <Fragment set:html={h.a('inheritance-tax-gift-allowances', 'yearly allowances')} />, such as the {m(I.annualExemption)} annual exemption.</li>
+      <li><strong>The tax-free lump sum.</strong> Usually {pc(N.taxFreeShare)} of a pot, capped at {m(N.lumpSumAllowance)} unless protected. Taken and kept, it stays in the estate; taken and given away, it becomes a lifetime gift. See the <Fragment set:html={h.a('pension-tax-free-lump-sum', 'lump sum page')} />.</li>
+      <li><strong>Drawing more income, or buying an annuity.</strong> Money spent in life pays no inheritance tax, but it pays income tax now; an annuity without a guarantee ends at death. See <Fragment set:html={h.a('pension-drawdown-tax', 'drawdown tax')} /> and the <Fragment set:html={h.a('annuity-calculator', 'annuity calculator')} />.</li>
+      <li><strong>Who the pension goes to.</strong> A pension nominated to a spouse or civil partner is exempt at the first death; one nominated to a charity is exempt and can bring the rest of the estate to {pc(I.charityRate)}. See <Fragment set:html={h.a('pension-left-to-spouse-inheritance-tax', 'pensions left to a spouse')} />.</li>
+    </ul>
+    <p>Comparing a pension with an ISA, which was already in the estate before the change, is the subject of the <Fragment set:html={h.a('pension-or-isa-inheritance-tax', 'pension or ISA page')} />. Couples who are not married or in a civil partnership have no spouse exemption and no transfer of bands; the <Fragment set:html={h.a('inheritance-tax-unmarried-couples', 'page for unmarried couples')} /> shows what that costs.</p>
+
+    <h2>How many families are affected</h2>
+    <p>HMRC's impact note of November 2025 estimates that of around {h.num(N.estatesWithPensions)} estates with pension wealth that could be inherited in {N.statsYear}, about {h.num(N.newlyLiable)} would pay inheritance tax for the first time and about {h.num(N.payMore)} would pay more, by around {m(N.averageIncrease)} on average. HMRC presents these as a maximum, before families change how they draw and give, and notes that {pc(N.share75plus)} of inheritance tax is paid by the estates of people aged 75 or over, the age at which the income tax on inherited pensions also starts.</p>
+
+    <h2>Where the rules come from</h2>
+    <p>Every rule on this site is taken from the law or from HMRC's own guidance, and the parameter file cites {nSrc} official pages. The pension rules are those of <Fragment set:html={h.src('fa2026', 'the Finance Act 2026')} />, read section by section on legislation.gov.uk, with <Fragment set:html={h.src('gov_tiin', 'HMRC\'s impact note')} /> and its <Fragment set:html={h.src('gov_tech_note', 'technical note')} /> on how the tax will be paid. The bands and the residence band rules come from GOV.UK's pages on <Fragment set:html={h.src('gov_iht', 'inheritance tax')} /> and the <Fragment set:html={h.src('gov_rnrb', 'residence nil-rate band')} />; the income tax rules from <Fragment set:html={h.src('gov_inherited_pension', 'tax on a private pension you inherit')} />. The engine is tested on every build against the worked examples GOV.UK and HMRC publish. The <a href={route('method', lang)}>method page</a> sets out every step and what is left out; the <a href={route('about', lang)}>about page</a> says who publishes the site.</p>
+    <p>What the calculator does not model: business and agricultural property relief, trusts, life insurance written in trust, a gift with reservation, the downsizing addition to the residence band, the exact rules for several charitable components, and the residence band of a home with a mortgage, for which it uses the full value of the home. It is not advice. Nothing you type leaves your browser, and the tax actually due is the one the personal representatives work out on the estate's account.</p>
+  </div>
+
+  <section class="mt-12" aria-labelledby="guides-title">
+    <h2 id="guides-title" class="text-2xl font-bold text-navy-900">Every guide and calculator</h2>
+    <div class="mt-4 space-y-6">
+      {groups.map(({ g, pages }) => (
+        <div class="grid gap-2 md:grid-cols-[12rem_minmax(0,1fr)] md:gap-6">
+          <h3 class="text-sm font-semibold uppercase tracking-wide text-navy-600">{groupLabel(g)}</h3>
+          <ul class="space-y-2">{pages.map((p) => <li><a href={route(p.id, lang)} class="font-medium text-accent-700 underline-offset-2 hover:underline">{p.nav}</a> <span class="text-sm text-navy-600">{p.card}</span></li>)}</ul>
+        </div>
+      ))}
+    </div>
+  </section>
+</PageLayout>

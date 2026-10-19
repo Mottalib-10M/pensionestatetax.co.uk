@@ -1,0 +1,32 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { LAST_UPDATED, AUTHOR_NAME, CONTACT_EMAIL, AUTHOR_ROLE } from '../../data/site-config';
+import { route } from '../../i18n/routes';
+import { personSchema, organizationSchema, breadcrumbSchema, profilePageSchema } from '../../lib/seo';
+import { displayDate } from '../../lib/format';
+import { PAGES } from '../../lib/guides';
+import { helpers } from '../../lib/helpers';
+const lang = 'en';
+const h = helpers(true);
+const n = PAGES.length + 1;
+const nSrc = Object.keys(h.P.sources).length;
+---
+<PageLayout title="Pension Estate Tax: who works out these 2027 IHT figures" description="Who publishes Pension Estate Tax, why it computes inheritance tax on pensions from April 2027 with the heirs' income tax, and where each rule comes from." lang={lang} jsonLd={[personSchema(lang), organizationSchema(lang), profilePageSchema({ path: route('about', lang), lang }), breadcrumbSchema([{ name: 'Home', path: route('home', lang) }, { name: 'About', path: route('about', lang) }])]} breadcrumbs={[{ label: 'About' }]}>
+  <header class="mb-6"><p class="kicker">About</p><h1 class="mt-1 text-3xl font-bold text-navy-900 md:text-4xl">Who works out the figures on Pension Estate Tax</h1></header>
+  <div class="prose prose-slate max-w-none">
+    <div class="not-prose mb-6"><p class="text-lg font-semibold text-navy-900">{AUTHOR_NAME}</p><p class="text-navy-700">{AUTHOR_ROLE[lang]}</p></div>
+    <p>Pension Estate Tax is published by Radif Partners, a company that builds free calculators on public rules. This one is for people in the United Kingdom who have a pension they may not spend in full, for their children and grandchildren, and for the executors who will one day have to report it: a widow with a SIPP, a couple with two workplace pots and a house, someone without children who wants to know what a niece will receive.</p>
+    <h2>Why this site exists</h2>
+    <p>When we looked at what ranked for pension inheritance tax in October 2026, the first result was HMRC's impact note, which explains the policy but contains no calculation and still speaks of legislation to come. Next came pension providers, wealth managers and law firms. Several described the change as a proposal months after the Finance Act 2026 had passed, gave the end of the threshold freeze as 2028 or 2030 instead of {h.D.freeze}, or attached the age of 75 to the heirs instead of the member. The calculators on offer either left the pension out of the estate or sent the result by email after asking for a name and phone number.</p>
+    <p>So this site does better than the first Google result because it puts the pension into the estate exactly as the Finance Act 2026 does for deaths from {h.D.from}, with the bands frozen until {h.D.freeze}, and then works out, with no form to fill in, both the inheritance tax and the income tax each heir pays on the pension (section 567B), by their tax band and by the age at death.</p>
+    <h2>Where the rules come from</h2>
+    <p>Each rule is read on legislation.gov.uk or GOV.UK, written into one parameter file with the page it comes from, and used by a single engine that every calculator calls. The file cites {nSrc} official pages, all read on {displayDate(h.P.retrieved_at, 'en-GB')}. The engine is tested on each build against the examples GOV.UK and HMRC publish. The <a href={route('method', lang)}>method page</a> lists every step and every limit.</p>
+    <h2>What we are not</h2>
+    <p>We are not HMRC, a pension scheme, a solicitor, a will writer or a financial adviser, and nothing here is a personal recommendation. We cannot see an estate, a will or a nomination form. The tax actually due is the one the personal representatives work out on the estate's account; a decision about a pension or a gift is for the person concerned, ideally with a solicitor or a regulated adviser.</p>
+    <h2>How the site is paid for</h2>
+    <p>It is free and needs no account, no email and no phone number. We sell nothing, take no commission, have no appointment form and link to no firm that does. If advertising is added one day it will never sit above a calculator, and it cannot use what you type, because nothing you type leaves your browser.</p>
+    <h2>Tell us when a figure is wrong</h2>
+    <p>Write to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> with the page, the values you entered and the source you rely on. The <a href={route('editorial', lang)}>editorial policy</a> explains how a correction is made. The site has {n} indexed pages, listed in the footer.</p>
+    <p class="text-sm text-navy-600">Rules last read on <time datetime={LAST_UPDATED}>{displayDate(LAST_UPDATED, 'en-GB')}</time>.</p>
+  </div>
+</PageLayout>

@@ -1,0 +1,48 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { LAST_UPDATED } from '../../data/site-config';
+import { route } from '../../i18n/routes';
+import { breadcrumbSchema, articleSchema } from '../../lib/seo';
+import { displayDate } from '../../lib/format';
+import { P, type SourceKey } from '../../lib/engine/params';
+import { helpers } from '../../lib/helpers';
+const lang = 'en';
+const h = helpers(true);
+const { E, m, pc } = h;
+const I = P.iht, N = P.pensions, IT = P.incomeTax;
+const L = (k: SourceKey, t?: string) => `<a href="${P.sources[k].url}" target="_blank" rel="nofollow noopener">${t ?? P.sources[k].label.en}</a>`;
+const ex = h.run({ home: 0, savings: 500000, pension: 0, status: 'single', homeToDescendants: false, heirs: 1 }, { age: 70, heirIncome: 0 });
+const ch = E.estate({ home: 0, savings: 750000, pension: 0, status: 'single', homeToDescendants: false, charityShare: 50000 / 750000 }, 'after');
+const gone = I.taperThreshold + I.rnrb * I.taperDivisor;
+const scoText = IT.scotland.bands.map((b) => `${pc(b.rate)}${b.upTo ? ` to ${m(b.upTo + (b.upTo + IT.personalAllowance <= IT.paTaperFrom ? IT.personalAllowance : 0))}` : ' above'}`).join(', ');
+const lump = E.lumpSum({ pot: 60000, other: 0 });
+---
+<PageLayout title="Pension IHT Method 2027: Rules, Formulas, Tests and Limits" description="How inheritance tax is worked out on an estate with its pension from April 2027: residence band taper, charity rate, the heirs' income tax, tests and limits." lang={lang} jsonLd={[articleSchema({ title: 'How the tax is worked out', description: 'Method of Pension Estate Tax', path: route('method', lang), lang }), breadcrumbSchema([{ name: 'Home', path: route('home', lang) }, { name: 'Method', path: route('method', lang) }])]} breadcrumbs={[{ label: 'Method' }]}>
+  <header class="mb-6"><p class="kicker">Method</p><h1 class="mt-1 text-3xl font-bold text-navy-900 md:text-4xl">How the tax is worked out</h1></header>
+  <div class="prose prose-slate max-w-none">
+    <p>Every calculator on the site calls one engine, a set of pure functions fed by a single parameter file. No amount is typed into a page: each figure on the site is either a parameter read on an official source or a result of the engine. The file was last checked against its sources on {displayDate(P.retrieved_at, 'en-GB')}. Each estate is computed twice, once as if the death happened before {h.D.from} and once on or after that date; the only difference between the two runs is whether the pension is in the estate.</p>
+    <h2>1. The estate</h2>
+    <p>Home, savings and other assets, less debts, make the free estate. From {h.D.from}, the unused pension is added as notional pension property under section 150A of the Inheritance Tax Act 1984 (<Fragment set:html={L('fa2026_s66')} />, <Fragment set:html={L('fa2026_s71')} />). Excluded benefits, such as death in service and dependants' scheme pensions, are never added. Before that date the pension is assumed to be paid at the scheme's discretion and outside the estate, which is the case for most pots but not for some public sector schemes that were already non-discretionary.</p>
+    <h2>2. Exemptions</h2>
+    <p>The share of the free estate and of the pension left to a spouse or civil partner is exempt, and so is the share left to charity (<Fragment set:html={L('fa2026_s69')} />). The calculator offers three cases for a married person: everything to the spouse, the estate to the spouse and the pension to the children, or everything to the children.</p>
+    <h2>3. The bands</h2>
+    <p>Nil-rate band {m(I.nrb)}, increased by the percentage left unused at the death of a late spouse, up to double (<Fragment set:html={L('gov_iht')} />, <Fragment set:html={L('gov_rnrb_transfer')} />). Lifetime gifts in the seven years before death use it first. Residence band {m(I.rnrb)}, also transferable as a percentage, available only when the home goes to direct descendants, capped at the value of the home inherited, and reduced by £1 for every £{I.taperDivisor} by which the estate, after debts and before exemptions and reliefs, exceeds {m(I.taperThreshold)}: a single person's band is gone at {m(gone)} (<Fragment set:html={L('gov_rnrb')} />). Because the pension is in the estate from {h.D.from}, it counts for the taper. Both bands are frozen to {I.frozenUntilTaxYear} (<Fragment set:html={L('fa2021_s86')} />, <Fragment set:html={L('fa2026_s72')} />).</p>
+    <h2>4. The rate and how it is shared</h2>
+    <p>The chargeable estate above the bands pays {pc(I.rate)}, or {pc(I.charityRate)} when the charity gift is at least {pc(I.charityTest)} of the baseline amount: the estate after exemptions, less the nil-rate band left (not the residence band), plus the charity gift (<Fragment set:html={L('ihtm45009')} />). The engine treats the whole estate, pension included, as one general component, as HMRC's <Fragment set:html={L('gov_tech_note', 'technical note')} /> says notional pension property belongs to it. The tax is then shared over the chargeable estate at its average rate, so the pension bears tax in proportion to its value. Gifts above the nil-rate band pay {pc(I.rate)} reduced by taper relief when made three to seven years before death (<Fragment set:html={L('gov_iht_gifts')} />).</p>
+    <h2>5. The heirs' income tax</h2>
+    <p>Member aged {N.deathAgeIncomeTax} or over at death: each heir's share of the pension, less the inheritance tax it bore, is added to the heir's other income and taxed at {P.taxYear} rates, spread over the number of tax years chosen (<Fragment set:html={L('fa2026_s70')} />, <Fragment set:html={L('gov_inherited_pension')} />). The Personal Allowance of {m(IT.personalAllowance)} is reduced by £1 for every £2 above {m(IT.paTaperFrom)}. England, Wales and Northern Ireland: {IT.ruk.bands.map((b) => pc(b.rate)).join(', ')}. Scotland, by total income with the standard allowance: {scoText} (<Fragment set:html={L('gov_scottish_it')} />). Member under {N.deathAgeIncomeTax}: no income tax, except on the part of the lump sums above the lump sum and death benefit allowance of {m(N.lsdba)}, tested net of inheritance tax, and less tax-free cash taken in life. The allowance is assumed unused unless you enter what was taken.</p>
+    <h2>6. What each heir keeps</h2>
+    <p>What does not go to a spouse or a charity is shared equally between the heirs: the free estate after its share of inheritance tax, and the pension after its share and the income tax. Lifetime gifts are not added to what the heirs receive.</p>
+    <h2>7. Tests</h2>
+    <p>Run on every build, with the source of each case: the GOV.UK estate of {m(500000)} which pays {m(ex.before.iht)}; HMRC's residence band examples, including a flat worth {m(100000)} that caps the band at that value; the taper reaching zero at {m(gone)}; the IHTM45010 example of a {m(750000)} estate with {m(50000)} to charity which pays {m(ch.iht)} at {pc(ch.rate)}; GOV.UK's gifts example, where a gift of {m(100000)} above the band made three to four years before death pays {m(E.giftTax({ gift: 100000, earlier: 325000, years: 3 }).tax)}; a {m(60000)} pot giving {m(lump.taxFree)} tax free; the combined {pc(E.combinedRate(I.rate, IT.ruk.bands[2].rate))} of the additional rate case. A failing test stops the build.</p>
+    <h2>8. What is not modelled</h2>
+    <ul>
+      <li>business and agricultural property relief, trusts, life insurance written in trust and gifts with reservation;</li>
+      <li>the downsizing addition to the residence band, and the residence band of a home with a mortgage, for which the full value of the home is used;</li>
+      <li>several charitable components, quick succession relief and foreign assets;</li>
+      <li>annuity guarantees and value protection, and scheme rules that pay benefits other than as a lump sum or drawdown;</li>
+      <li>growth of the pension between death and payment, interest on late payment.</li>
+    </ul>
+    <p>Method version: {LAST_UPDATED}. A figure that looks wrong: <a href={route('contact', lang)}>contact</a>.</p>
+  </div>
+</PageLayout>

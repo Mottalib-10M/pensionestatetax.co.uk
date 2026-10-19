@@ -1,0 +1,21 @@
+{
+ "name": "Pension Estate Tax",
+ "short_name": "Pension Estate Tax",
+ "description": "Inheritance tax on pensions from April 2027 worked out for a UK estate: home, savings and pension pot, the frozen thresholds, then the income tax heirs pay after 75.",
+ "start_url": "/en/",
+ "display": "standalone",
+ "background_color": "#ffffff",
+ "theme_color": "#8C1D2F",
+ "icons": [
+  {
+   "src": "/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  }
+ ]
+}

@@ -1,0 +1,103 @@
+{
+  "_about": "Every statutory figure used by the engine or shown on a page lives here, never typed into a page (RECETTE §4, §17.4). Each value was read on the cited official source on retrieved_at.",
+  "year": 2026,
+  "taxYear": "2026/27",
+  "taxYearLong": "6 April 2026 to 5 April 2027",
+  "retrieved_at": "2026-10-19",
+  "valid_from": "2026-04-06",
+  "valid_to": "2027-04-05",
+  "iht": {
+    "nrb": 325000,
+    "rnrb": 175000,
+    "taperThreshold": 2000000,
+    "taperDivisor": 2,
+    "rate": 0.4,
+    "charityRate": 0.36,
+    "charityTest": 0.1,
+    "lifetimeRate": 0.2,
+    "frozenUntilTaxYear": "2030/31",
+    "frozenUntilDate": "2031-04-05",
+    "paymentMonths": 6,
+    "giftYears": 7,
+    "taper": [
+      { "fromYears": 0, "toYears": 3, "share": 1 },
+      { "fromYears": 3, "toYears": 4, "share": 0.8 },
+      { "fromYears": 4, "toYears": 5, "share": 0.6 },
+      { "fromYears": 5, "toYears": 6, "share": 0.4 },
+      { "fromYears": 6, "toYears": 7, "share": 0.2 },
+      { "fromYears": 7, "toYears": 99, "share": 0 }
+    ],
+    "annualExemption": 3000,
+    "smallGift": 250,
+    "wedding": { "child": 5000, "grandchild": 2500, "other": 1000 }
+  },
+  "pensions": {
+    "inEstateFrom": "2027-04-06",
+    "royalAssent": "2026-03-18",
+    "budget2024": "2024-10-30",
+    "deathAgeIncomeTax": 75,
+    "lumpSumAllowance": 268275,
+    "lsdba": 1073100,
+    "taxFreeShare": 0.25,
+    "lumpSumPaidWithinYears": 2,
+    "withholdShare": 0.5,
+    "withholdMonths": 15,
+    "directPaymentMin": 1000,
+    "directPaymentDays": 35,
+    "estatesWithPensions": 213000,
+    "newlyLiable": 10500,
+    "payMore": 38500,
+    "averageIncrease": 34000,
+    "statsYear": "2027/28",
+    "share75plus": 0.79
+  },
+  "incomeTax": {
+    "personalAllowance": 12570,
+    "paTaperFrom": 100000,
+    "ruk": {
+      "label": "England, Wales and Northern Ireland",
+      "bands": [
+        { "upTo": 37700, "rate": 0.2, "name": "basic" },
+        { "upTo": 125140, "rate": 0.4, "name": "higher" },
+        { "upTo": null, "rate": 0.45, "name": "additional" }
+      ]
+    },
+    "scotland": {
+      "label": "Scotland",
+      "_note": "Thresholds published by GOV.UK as total income with the standard Personal Allowance; stored here as taxable income above the allowance.",
+      "bands": [
+        { "upTo": 3967, "rate": 0.19, "name": "starter" },
+        { "upTo": 16956, "rate": 0.2, "name": "basic" },
+        { "upTo": 31092, "rate": 0.21, "name": "intermediate" },
+        { "upTo": 62430, "rate": 0.42, "name": "higher" },
+        { "upTo": 125140, "rate": 0.45, "name": "advanced" },
+        { "upTo": null, "rate": 0.48, "name": "top" }
+      ]
+    }
+  },
+  "sources": {
+    "fa2026": { "url": "https://www.legislation.gov.uk/ukpga/2026/11/contents", "label": { "en": "Finance Act 2026 (c. 11), Royal Assent 18 March 2026, legislation.gov.uk" } },
+    "fa2026_s66": { "url": "https://www.legislation.gov.uk/ukpga/2026/11/section/66", "label": { "en": "Finance Act 2026, section 66: new section 150A IHTA 1984, pension interests treated as part of the estate" } },
+    "fa2026_s67": { "url": "https://www.legislation.gov.uk/ukpga/2026/11/section/67", "label": { "en": "Finance Act 2026, section 67: liability for tax on pension interests" } },
+    "fa2026_s68": { "url": "https://www.legislation.gov.uk/ukpga/2026/11/section/68", "label": { "en": "Finance Act 2026, section 68: withholding of benefits and payment of tax by the scheme administrator" } },
+    "fa2026_s69": { "url": "https://www.legislation.gov.uk/ukpga/2026/11/section/69", "label": { "en": "Finance Act 2026, section 69: spouse, charity and other exemptions applied to pension benefits" } },
+    "fa2026_s70": { "url": "https://www.legislation.gov.uk/ukpga/2026/11/section/70", "label": { "en": "Finance Act 2026, section 70: income tax deduction for inheritance tax paid on pension death benefits" } },
+    "fa2026_s71": { "url": "https://www.legislation.gov.uk/ukpga/2026/11/section/71", "label": { "en": "Finance Act 2026, section 71: deaths on or after 6 April 2027" } },
+    "fa2026_s72": { "url": "https://www.legislation.gov.uk/ukpga/2026/11/section/72", "label": { "en": "Finance Act 2026, section 72: rate bands frozen for 2030 to 2031" } },
+    "fa2021_s86": { "url": "https://www.legislation.gov.uk/ukpga/2021/26/section/86", "label": { "en": "Finance Act 2021, section 86 as amended: no indexation of the nil-rate bands up to 2030 to 2031" } },
+    "gov_tiin": { "url": "https://www.gov.uk/government/publications/inheritance-tax-unused-pension-funds-and-death-benefits/inheritance-tax-unused-pension-funds-and-death-benefits", "label": { "en": "HMRC, Inheritance Tax: unused pension funds and death benefits, tax information and impact note (26 November 2025)" } },
+    "gov_tech_note": { "url": "https://www.gov.uk/government/publications/inheritance-tax-on-pensions-technical-note/technical-note-inheritance-tax-on-pensions", "label": { "en": "HMRC, Technical note: Inheritance Tax on pensions (29 May 2026)" } },
+    "gov_tech_note2": { "url": "https://www.gov.uk/government/publications/inheritance-tax-on-pensions-technical-note-2/technical-note-2-further-information-on-inheritance-tax-and-pensions", "label": { "en": "HMRC, Technical note 2: further information on Inheritance Tax and pensions (27 August 2026)" } },
+    "gov_iht": { "url": "https://www.gov.uk/inheritance-tax", "label": { "en": "GOV.UK, How Inheritance Tax works: thresholds, rules and allowances" } },
+    "gov_iht_gifts": { "url": "https://www.gov.uk/inheritance-tax/gifts", "label": { "en": "GOV.UK, Inheritance Tax: rules on giving gifts, the 7 year rule and taper relief" } },
+    "gov_iht_home": { "url": "https://www.gov.uk/inheritance-tax/passing-on-home", "label": { "en": "GOV.UK, Inheritance Tax: passing on a home" } },
+    "gov_rnrb": { "url": "https://www.gov.uk/guidance/inheritance-tax-residence-nil-rate-band", "label": { "en": "HMRC, Work out and apply the residence nil rate band for Inheritance Tax" } },
+    "gov_rnrb_transfer": { "url": "https://www.gov.uk/guidance/inheritance-tax-transfer-of-threshold", "label": { "en": "HMRC, Transferring unused residence nil rate band for Inheritance Tax" } },
+    "gov_pay_iht": { "url": "https://www.gov.uk/paying-inheritance-tax", "label": { "en": "GOV.UK, Pay your Inheritance Tax bill" } },
+    "ihtm45009": { "url": "https://www.gov.uk/hmrc-internal-manuals/inheritance-tax-manual/ihtm45009", "label": { "en": "HMRC Inheritance Tax Manual IHTM45009: reduced rate for gifts to charity, the baseline amount" } },
+    "gov_ootlar": { "url": "https://www.gov.uk/government/publications/budget-2025-overview-of-tax-legislation-and-rates-ootlar/annex-a-rates-and-allowances", "label": { "en": "HM Treasury and HMRC, Budget 2025 Overview of tax legislation and rates, Annex A: rates and allowances" } },
+    "gov_tax_on_pension": { "url": "https://www.gov.uk/tax-on-pension", "label": { "en": "GOV.UK, Tax when you get a pension" } },
+    "gov_inherited_pension": { "url": "https://www.gov.uk/tax-on-pension-death-benefits", "label": { "en": "GOV.UK, Tax on a private pension you inherit" } },
+    "gov_scottish_it": { "url": "https://www.gov.uk/scottish-income-tax", "label": { "en": "GOV.UK, Income Tax in Scotland: 2026 to 2027 rates" } }
+  }
+}

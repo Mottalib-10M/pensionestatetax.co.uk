@@ -1,0 +1,27 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { AUTHOR_NAME, CONTACT_EMAIL, LAST_UPDATED, SITE_NAMES } from '../../data/site-config';
+import { route } from '../../i18n/routes';
+const lang = 'en';
+---
+<PageLayout title={`Editorial policy of ${SITE_NAMES[lang]}: law, tests, corrections`} description="Which legislation and HMRC pages Pension Estate Tax uses for inheritance tax and pensions, which sources it refuses, how the engine is tested and how an error is corrected." lang={lang} noindex={true} breadcrumbs={[{ label: 'Editorial policy' }]} showAuthor={false}>
+  <div class="prose prose-slate max-w-none">
+    <h1>Editorial and corrections policy</h1>
+    <p>People read these pages when a parent has died, when they are writing a will, or when they are deciding how to draw a pension they spent forty years building. A rule stated a year late, or a threshold with the wrong end date, can push them into a costly decision. So every rule on the site is tied to the section of the Act or the HMRC page it comes from, and every figure is computed, never typed.</p>
+    <h2>Who is responsible</h2><p>{AUTHOR_NAME}, reachable at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
+    <h2>The sources we use</h2>
+    <ul>
+      <li>the Finance Act 2026 and the Inheritance Tax Act 1984 as amended, read on legislation.gov.uk;</li>
+      <li>HMRC's impact note on unused pension funds and death benefits, and its two technical notes of 2026 on inheritance tax and pensions;</li>
+      <li>GOV.UK guidance on inheritance tax, gifts, the residence nil rate band, paying the tax, and tax on pensions and inherited pensions;</li>
+      <li>the HMRC Inheritance Tax Manual for points of practice, such as the baseline amount of the charity rate;</li>
+      <li>the Budget 2025 table of rates and allowances for the income tax bands and pension allowances of 2026/27.</li>
+    </ul>
+    <h2>Sources we refuse</h2><p>Pension providers, wealth managers, law firms, insurers and other calculators never provide a rule here, however well they rank. In October 2026 several of the best placed pages still said the legislation was not final, gave the end of the threshold freeze as 2028 or 2030 instead of 5 April 2031, or offered a calculator that left the pension out of the estate. Their articles are read only to know what readers have already been told.</p>
+    <h2>Testing</h2><p>Every build runs the engine tests, which include the worked examples published by GOV.UK and the HMRC manual: the estate of £500,000 taxed on £175,000, the residence band capped by a flat worth £100,000, the charity example at 36 %, the gifts example where a gift three years before death pays 32 %, and the lump sum example of a £60,000 pot. A failing test stops the build.</p>
+    <h2>Review cycle</h2><p>The rules are reread when HMRC publishes anything on pensions in the estate, at each Budget and at the start of each tax year. Rates announced for a future year are shown as announced, with the date, never as if they applied already. Each page shows the date the rules were last read.</p>
+    <h2>Corrections</h2>
+    <ol><li>We open the Act or the HMRC page again.</li><li>We correct the parameter file or the engine and add a test for the case.</li><li>The pages rebuild and show the new date.</li></ol>
+    <h2>Independence</h2><p>No pension scheme, insurer, adviser, solicitor or will writer pays for or reviews what is published here, the site takes no commission and carries no affiliate link or appointment form. See also the <a href={route('method', lang)}>method</a>. Version: {LAST_UPDATED}.</p>
+  </div>
+</PageLayout>
