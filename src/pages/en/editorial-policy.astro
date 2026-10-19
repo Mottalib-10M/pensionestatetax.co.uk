@@ -2,6 +2,9 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import { AUTHOR_NAME, CONTACT_EMAIL, LAST_UPDATED, SITE_NAMES } from '../../data/site-config';
 import { route } from '../../i18n/routes';
+import { helpers } from '../../lib/helpers';
+const h = helpers(true);
+const I = h.P.iht;
 const lang = 'en';
 ---
 <PageLayout title={`Editorial policy of ${SITE_NAMES[lang]}: law, tests, corrections`} description="Which legislation and HMRC pages Pension Estate Tax uses for inheritance tax and pensions, which sources it refuses, how the engine is tested and how an error is corrected." lang={lang} noindex={true} breadcrumbs={[{ label: 'Editorial policy' }]} showAuthor={false}>
@@ -18,7 +21,7 @@ const lang = 'en';
       <li>the Budget 2025 table of rates and allowances for the income tax bands and pension allowances of 2026/27.</li>
     </ul>
     <h2>Sources we refuse</h2><p>Pension providers, wealth managers, law firms, insurers and other calculators never provide a rule here, however well they rank. In October 2026 several of the best placed pages still said the legislation was not final, gave the end of the threshold freeze as 2028 or 2030 instead of 5 April 2031, or offered a calculator that left the pension out of the estate. Their articles are read only to know what readers have already been told.</p>
-    <h2>Testing</h2><p>Every build runs the engine tests, which include the worked examples published by GOV.UK and the HMRC manual: the estate of £500,000 taxed on £175,000, the residence band capped by a flat worth £100,000, the charity example at 36 %, the gifts example where a gift three years before death pays 32 %, and the lump sum example of a £60,000 pot. A failing test stops the build.</p>
+    <h2>Testing</h2><p>Every build runs the engine tests, which include the worked examples published by GOV.UK and the HMRC manual: the estate of {h.m(500000)} taxed on {h.m(500000 - I.nrb)}, the residence band capped by a flat worth {h.m(100000)}, the charity example at {h.pc(I.charityRate)}, the gifts example where a gift {I.taper[1].fromYears} years before death pays {h.pc(I.rate * I.taper[1].share)}, and the lump sum example of a {h.m(60000)} pot. A failing test stops the build.</p>
     <h2>Review cycle</h2><p>The rules are reread when HMRC publishes anything on pensions in the estate, at each Budget and at the start of each tax year. Rates announced for a future year are shown as announced, with the date, never as if they applied already. Each page shows the date the rules were last read.</p>
     <h2>Corrections</h2>
     <ol><li>We open the Act or the HMRC page again.</li><li>We correct the parameter file or the engine and add a test for the case.</li><li>The pages rebuild and show the new date.</li></ol>

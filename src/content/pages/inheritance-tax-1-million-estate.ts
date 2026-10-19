@@ -52,7 +52,7 @@ ${h.table(['Survivor’s pension', 'Second estate', 'Bands used', 'Inheritance t
 ${h.ledger(EST, HEIR, `Widow with both bands transferred, death at 78, before and from ${h.D.from}.`)}
 
 <h2>A first death long ago</h2>
-<p>The residence band only began in April 2017, yet a survivor whose partner died earlier is not left out. HMRC treats the whole of the late partner's residence band as unused in that case, unless their own estate was above ${h.m(I.taperThreshold)}. The executors still have to make the claim and show the home passing to descendants at the second death.</p>
+<p>The residence band only began on ${h.date(h.P.iht.rnrbFrom)}, yet a survivor whose partner died earlier is not left out. HMRC treats the whole of the late partner's residence band as unused in that case, unless their own estate was above ${h.m(I.taperThreshold)}. The executors still have to make the claim and show the home passing to descendants at the second death.</p>
 
 <h2>Where a pension from the first death ends up</h2>
 <p>A pension left to the surviving partner is exempt at the first death under ${h.src('fa2026_s69', 'section 69 of the Act')}. If the survivor keeps it invested, it sits in their estate at the second death. The ${h.a('pension-left-to-spouse-inheritance-tax', 'spouse page')} follows that route, the ${h.a('transferable-nil-rate-band', 'transferable band guide')} covers partial transfers and old deaths, and the ${h.a('inheritance-tax-2-million-estate', `${h.m(I.taperThreshold)} page`)} picks up where the taper begins. Executors, a solicitor or a regulated adviser check the transfer claim and the figures for an actual estate.</p>
