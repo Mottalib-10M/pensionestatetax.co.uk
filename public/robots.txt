@@ -3,4 +3,4 @@ Allow: /
 
 Disallow: /*?*
 
-Sitemap: https://uk-pension-iht.example/sitemap-index.xml
+Sitemap: https://pensionestatetax.co.uk/sitemap-index.xml

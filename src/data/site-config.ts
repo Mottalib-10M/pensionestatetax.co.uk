@@ -1,5 +1,5 @@
 /** Configuration centrale du site (générée par new-site.py). */
-export const SITE_URL = "https://uk-pension-iht.example";
+export const SITE_URL = "https://pensionestatetax.co.uk";
 export const SITE_NAMES: Record<string, string> = {"en": "Pension Estate Tax"};
 export const LANG_TAGS: Record<string, string> = {"en": "en-GB"};
 export const OG_LOCALES: Record<string, string> = {"en": "en_GB"};
@@ -16,7 +16,7 @@ export const AUTHOR_DESC: Record<string, string> = {"en": "Radif Partners publis
  *  themes reellement traites par le site, pas une liste de mots-cles : un sujet
  *  declare ici sans page qui le couvre est une declaration fausse. */
 export const KNOWS_ABOUT: Record<string, string[]> = {"en": ["Inheritance tax on unused pension funds from 6 April 2027", "Nil-rate band and residence nil-rate band", "Residence nil-rate band taper above £2 million", "Transferable nil-rate band between spouses and civil partners", "Income tax on inherited pensions when the member died at 75 or over", "Gifts, the seven-year rule and taper relief", "Pension tax-free lump sum and the lump sum allowance"]};
-export const CONTACT_EMAIL = "contact@uk-pension-iht.example";
+export const CONTACT_EMAIL = "contact@pensionestatetax.co.uk";
 export const THEME_COLOR = '#8C1D2F';
 export const LOGO_SYMBOL = 'IHT';
 export const BING_VERIFY_CODE = '';
