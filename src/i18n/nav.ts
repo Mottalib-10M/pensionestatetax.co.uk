@@ -9,9 +9,13 @@ export const groupLabel = (g: Group) => GROUP_LABEL[g];
 export const label = (id: string, _lang: Locale = 'en') => CORE[id] ?? pageById(id)?.nav ?? id;
 const link = (id: string, lang: Locale): NavLink => ({ href: route(id, lang), label: label(id, lang) });
 const inGroup = (g: Group, lang: Locale) => PAGES.filter((p) => p.group === g).map((p) => link(p.id, lang));
-export function navCategories(lang: Locale): NavCategory[] {
+function categoriesCompletes(lang: Locale): NavCategory[] {
   return GROUPS_ORDER.map((g) => ({ label: GROUP_LABEL[g], links: inGroup(g, lang) })).filter((c) => c.links.length);
 }
+// Intitules du menu du haut : courts, jamais sur deux lignes (les intitules complets restent en bas de page).
+const COURT: Record<string, string> = {"Pensions from April 2027": "Pensions 2027", "Heirs and who pays": "Heirs", "Thresholds and rates": "Rates", "Gifts and the 7 years": "Gifts", "Worked estates": "Examples", "Drawing a pension in life": "Income"};
+export const navCategories = (lang: Locale, court = true): NavCategory[] =>
+  categoriesCompletes(lang).map((c) => (court ? { ...c, label: COURT[c.label] ?? c.label } : c));
 export const navDirect = (_lang: Locale): NavLink[] => [];
 export const footerColumns = (lang: Locale): NavCategory[] => [...GROUPS_ORDER.map((g) => ({ label: GROUP_LABEL[g], links: inGroup(g, lang) })).filter((c) => c.links.length), { label: 'This site', links: ['home', 'method', 'about', 'contact', 'editorial', 'widget', 'terms', 'privacy', 'cookies'].map((i) => link(i, lang)) }];
 export const popularLinks = (_lang: Locale): NavLink[] => [];
