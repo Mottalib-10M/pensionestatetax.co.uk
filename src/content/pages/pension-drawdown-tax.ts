@@ -22,7 +22,7 @@ export default definePage({
   title: 'Pension Drawdown Calculator 2026/27: Tax on a Withdrawal',
   description: 'Pension drawdown calculator for 2026/27: income tax on a withdrawal, the tax-free quarter of an untouched pot, your marginal rate after it and the 60 % zone.',
   h1: 'Pension drawdown calculator: the tax on one withdrawal',
-  intro: 'Type the amount you plan to take this tax year and your other income. The calculator gives the tax, what reaches your account and the rate on the next pound.',
+  intro: 'Type the amount you plan to take from pension drawdown this tax year and your other income. The calculator gives the tax, what reaches your account and the rate on the next pound.',
   resume: (h) => {
     const N = h.P.pensions, it = h.P.incomeTax;
     const a = ufpls(h, DRAW, OTHER, true), b = ufpls(h, DRAW, OTHER, false);
@@ -46,7 +46,7 @@ export default definePage({
     const scot = ufpls(h, DRAW, OTHER, true, 'scotland');
     const eng = ufpls(h, DRAW, OTHER, true);
     return `
-<h2>What the tool needs from you</h2>
+<h2>What the pension drawdown calculator needs from you</h2>
 <p>Three figures matter: the amount you plan to take before the tax year ends, the income you will have anyway (salary, State Pension, rent, another pension), and whether the pot has been touched. The last question decides the tax-free part. GOV.UK's page on ${h.src('gov_tax_on_pension', 'tax when you get a pension')} explains that you can usually take up to ${h.pc(N.taxFreeShare)} of a pot tax free, with the rest taxed as income, and gives the example of a ${h.m(60000)} pot of which ${h.m(15000)} is free. Once the tax-free cash has been taken, every pound of drawdown income is taxable.</p>
 
 <h2>One ${h.m(20000)} withdrawal at five income levels</h2>

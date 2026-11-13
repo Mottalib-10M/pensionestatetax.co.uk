@@ -22,7 +22,7 @@ export default definePage({
   title: 'Tax on Pension Withdrawal 2026/27: Cashing In a Whole Pot',
   description: 'How much tax on a pension withdrawal that empties the pot in 2026/27: one tax year against several, by pot size, with the tax-free quarter and the cap on it.',
   h1: 'Cashing in a pension: the tax in one year or spread out',
-  intro: 'Emptying a pot in a single tax year stacks all of it on top of your other income. Spreading it changes the bill, often by thousands of pounds.',
+  intro: 'Emptying a pot in a single tax year stacks the whole pension withdrawal on top of your other income, and the tax with it. Spreading it changes the bill, often by thousands of pounds.',
   resume: (h) => {
     const N = h.P.pensions;
     const once = cash(h, 100000, 1), three = cash(h, 100000, 3);
@@ -45,7 +45,7 @@ export default definePage({
 <h2>Why one tax year costs more</h2>
 <p>Income tax is charged band by band on everything received between 6 April and the following 5 April. A pot cashed in one go lands entirely in one of those years. The first slices may still be taxed at the basic rate, but the rest climbs into the higher rate and, for a large pot, into the stretch above ${h.m(h.P.incomeTax.paTaperFrom)} where the Personal Allowance is clawed back. Spread over three or five years, the same taxable amount fills the lower bands of each year in turn. The bands used by the calculator are the ${h.src('gov_ootlar', 'rates and allowances')} of ${h.P.taxYear}, applied to every year of the spread.</p>
 
-<h2>Tax on pots of five sizes</h2>
+<h2>Tax on a pension withdrawal: pots of five sizes</h2>
 <p>The table cashes in each pot with ${h.m(OTHER)} of other income every year, a figure chosen only as an example. The tax-free part is taken once; the taxable rest is either drawn in one tax year or split evenly.</p>
 ${h.table(['Pot', 'Tax free', 'Tax, one year', 'Tax, over 3 years', 'Tax, over 5 years'], rows, 'Other income £20,000 a year, England, Wales and Northern Ireland, 2026/27 bands. Computed by the engine.', ['r', 'r', 'r', 'r', 'r'])}
 <p>On the smallest pot the saving is modest, because most of it fits inside the basic rate band of a single year. On the largest, the one-year bill of ${h.m(big.tax)} falls sharply once the taxable part is shared across years. The figures assume the other income stays the same; a salary that stops, or a State Pension that starts, changes them, and you can type your own values into the tool.</p>

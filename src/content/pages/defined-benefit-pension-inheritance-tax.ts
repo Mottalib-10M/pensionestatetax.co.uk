@@ -19,7 +19,7 @@ export default definePage({
   title: 'Defined Benefit Pension Inheritance Tax: 2027 Rules',
   description: 'Defined benefit pension inheritance tax from April 2027: guarantee and refund lump sums join the estate, survivors’ pensions stay out but are taxed as income.',
   h1: 'Defined benefit pensions and inheritance tax from 2027',
-  intro: 'A final salary scheme holds no pot that heirs can inherit, so the reform reaches it through the lump sums it pays on death rather than through a fund.',
+  intro: 'A final salary (defined benefit) pension scheme holds no pot that heirs can inherit, so the inheritance tax reform reaches it through the lump sums it pays on death rather than through a fund.',
   resume: (h) => {
     const I = h.P.iht;
     const r = h.run(CASE, heir(71));
@@ -47,7 +47,7 @@ export default definePage({
     ];
     const lumps = [20000, 45000, 90000].map((l) => { const r = h.run({ ...CASE, pension: l }, heir(71)); return [h.m(l), h.m(r.before.iht), h.m(r.after.iht), h.m(r.after.ihtOnPension)]; });
     return `
-<h2>Why there is usually no pot to tax</h2>
+<h2>Why defined benefit pensions usually have no pot for inheritance tax</h2>
 <p>In a money purchase scheme the member owns a share of an invested fund, and whatever is left at death can pass on. A defined benefit scheme works differently. It promises an income worked out from salary and service, paid for life, and the scheme's assets are pooled to meet the promises to every member. When a pensioner dies, the income stops or switches to a survivor; there is no balance that belongs to the member.</p>
 <p>That is why ${h.src('fa2026_s66', 'section 150A')} uses two different measures. For money purchase arrangements it takes the value of the pot. For defined benefits arrangements it takes the lump sum death benefits that must be paid, or that may be paid and can reasonably be expected to be, plus some continuing payments. The main continuing payment, a pension for a dependant, is then taken back out by the list of excluded benefits. For a typical pensioner the result is that only the one-off sums a scheme pays on death are in the estate.</p>
 

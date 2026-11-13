@@ -18,7 +18,7 @@ export default definePage({
   title: 'Inheritance Tax on a £1 Million Estate After 2027: Couples',
   description: 'Inheritance tax on a £1 million estate in 2026/27: how a widow or widower uses both sets of bands at the second death, and a pension that exceeds them in 2027.',
   h1: 'Inheritance tax on a £1 million estate at the second death',
-  intro: 'A married couple or civil partners can, between them, pass on a million pounds tax free. The surviving partner’s pension now has to fit inside that figure too.',
+  intro: 'A married couple or civil partners can, between them, pass on a £1 million estate free of inheritance tax. The surviving partner’s pension now has to fit inside that figure too.',
   resume: (h) => {
     const I = h.P.iht;
     const r = h.run(EST, HEIR);
@@ -47,7 +47,7 @@ export default definePage({
 ${h.table(['Survivor’s pension', 'Second estate', 'Bands used', 'Inheritance tax', 'Each of two children keeps'], rows, 'Widowed, both bands transferred in full, home £550,000 and savings £150,000 to two children, death at 78, children earning £45,000. Computed by the engine.', ['r', 'r', 'r', 'r', 'r'])}
 <p>The bands do not stretch: once the estate passes ${h.m(2 * (I.nrb + I.rnrb))}, each further pound of pension is taxed. The last column also takes off the children's income tax on the pension, which applies because the death is at ${HEIR.age}.</p>
 
-<h2>The example, line by line</h2>
+<h2>Inheritance tax on a £1 million estate, line by line</h2>
 <p>The calculator opens on this case. The ledger repeats it with the same inputs: widowed, full transfer, ${h.m(EST.home)} home to two children who each earn ${h.m(HEIR.heirIncome)}.</p>
 ${h.ledger(EST, HEIR, `Widow with both bands transferred, death at 78, before and from ${h.D.from}.`)}
 

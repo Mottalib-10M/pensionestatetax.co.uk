@@ -20,7 +20,7 @@ export default definePage({
   title: 'Gifts From Income and Inheritance Tax 2026/27: Three Tests',
   description: 'Gifts from income and inheritance tax in 2026/27: the three conditions, GOV.UK’s examples, records for executors and HMRC’s view of gifts from pension drawdown.',
   h1: 'Gifts from surplus income: the inheritance tax exemption without a ceiling',
-  intro: 'Most exemptions for gifts are small fixed sums. One is open ended: regular giving out of income that leaves the giver’s own standard of living untouched. It is also the one that depends most on evidence.',
+  intro: 'Most inheritance tax exemptions for gifts are small fixed sums. One is open ended: regular giving out of income that leaves the giver’s own standard of living untouched. It is also the one that depends most on evidence.',
   resume: (h) => {
     const I = h.P.iht;
     const kept = grandmother(h, MONTH * 12 * YEARS), given = grandmother(h, 0);
@@ -86,7 +86,7 @@ ${h.table(['', 'Pot left untouched', `${h.m(draw)} a year withdrawn and given`],
 ], 'Home £450,000 to the children, savings £150,000, pension £300,000, death at 84 after April 2027; heirs earn £40,000 and draw over three years. Only if the gifts qualify as normal expenditure.', ['l', 'r', 'r'])}
 <p>The gain comes from the money leaving the estate without inheritance tax, and from it bearing income tax once, at the member's rate, instead of inheritance tax followed by the heirs' income tax. It holds only if the representatives can show the three conditions were met; if they cannot, the gifts fall back into the ${h.P.iht.giftYears} year rule and the comparison changes. This is the kind of pattern on which a regulated adviser or solicitor is consulted before it starts, not after.</p>
 
-<h2>Where the exemption stops</h2>
+<h2>Where the inheritance tax exemption for gifts from income stops</h2>
 <p>An inheritance received and passed on, or the proceeds of selling an asset, are not income, and gifts paid from them fail the income test however regular they are made to look. Nor does the exemption help someone whose income is fully committed. For those situations the fixed allowances and the ${h.P.iht.giftYears} year rule are what apply. The ${h.a('home', 'estate calculator')} shows the effect of gifts on a whole estate, and the ${h.a('pension-drawdown-tax', 'drawdown tax page')} shows what each withdrawal costs in income tax.</p>
 `;
   },

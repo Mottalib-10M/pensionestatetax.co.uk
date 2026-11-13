@@ -47,7 +47,7 @@ export default definePage({
     const r = run(h, 900000);
     const old = h.run({ ...BASE, pension: 900000 }, { age: 80, heirIncome: 50000 });
     return `
-<h2>Age at death and date of death: two separate tests</h2>
+<h2>Pension death before 75: age at death and date of death, two separate tests</h2>
 <p>Two questions decide what happens to a pension after its owner dies, and they are independent. The member's age at death settles income tax: before ${N.deathAgeIncomeTax}, most death benefits reach the beneficiary free of it, while from ${N.deathAgeIncomeTax} the beneficiary pays at their own rates. The date of death settles inheritance tax: before ${h.D.from}, a pension paid at the scheme's discretion stays outside the estate, and from that date it is included, as ${h.src('fa2026_s71', 'section 71 of the Finance Act 2026')} provides.</p>
 <p>Put together, the reform hits younger deaths in a particular way. Before it, a member who died at 68 could pass on a pot with neither tax, which is why pensions were so often the last asset families expected to be taxed. After it, the income tax advantage remains but the pot is added to everything else the member owned. ${h.src('gov_tiin', 'HMRC’s impact note')} puts the share of inheritance tax paid by estates of people aged ${N.deathAgeIncomeTax} or over at ${h.pc(N.share75plus)}, so deaths before that age account for the smaller part of the bill. For the estates concerned, though, the pot has often not been drawn at all, and all of it enters the estate.</p>
 

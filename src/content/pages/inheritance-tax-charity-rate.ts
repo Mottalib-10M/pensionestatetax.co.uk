@@ -60,7 +60,7 @@ export default definePage({
     const plain = h.run({ home: 400000, savings: 500000, pension: 300000, status: 'single', homeToDescendants: true, heirs: 2 }, heir);
     const nominated = h.run({ home: 400000, savings: 590000, pension: 210000, status: 'single', homeToDescendants: true, charityShare: 90000 / 990000, heirs: 2 }, heir);
     return `
-<h2>Ten per cent of what? The baseline amount</h2>
+<h2>Ten per cent of what? The baseline for the inheritance tax charity rate</h2>
 <p>HMRC explains the arithmetic of the reduced rate in its manual at ${h.src('ihtm45009', 'IHTM45009')}. The measure is not the estate on the day of death and not the amount the heirs inherit. It is a figure built in three steps. Start from the estate after exemptions, which means after the charity legacy itself and after anything left to a spouse or civil partner has been taken out. Take off the nil-rate band that is still available, including any band transferred from a late spouse and after lifetime gifts have used their share. Then add the charity gift back on. The result is the baseline, and the legacy passes when it is ${h.pc(I.charityTest)} of that figure or more.</p>
 <p>Two consequences follow, and they pull in opposite directions. Because the nil-rate band is deducted, the baseline is smaller than the estate, so the share of the estate needed is below a tenth: for HMRC's ${h.m(750000)} example the engine finds that ${h.pc(q750, 1)} of the estate is enough. Because the residence nil-rate band is not deducted, a family home left to children does nothing to lower the target, even though it lowers the tax. The rate then applies to the whole taxable part of that component of the estate, not just to the slice above some marker.</p>
 

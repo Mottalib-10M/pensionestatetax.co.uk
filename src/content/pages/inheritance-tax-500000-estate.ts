@@ -18,7 +18,7 @@ export default definePage({
   title: 'Inheritance Tax on a £500,000 Estate: The Pension in 2027',
   description: 'Inheritance tax on a £500,000 estate in 2026/27 for a single parent leaving a home to children, and how a pension pushes it over the line from April 2027.',
   h1: 'Inheritance tax on a £500,000 estate with a pension',
-  intro: 'For a single or divorced parent, half a million pounds is the line. A modest pension that used to sit beside the estate now counts inside it.',
+  intro: 'For a single or divorced parent, a £500,000 estate is the inheritance tax line. A modest pension that used to sit beside the estate now counts inside it.',
   resume: (h) => {
     const I = h.P.iht;
     const r = h.run(EST, HEIR);
@@ -40,7 +40,7 @@ export default definePage({
     const rows = pots.map((p) => { const r = h.run({ ...EST, pension: p }, HEIR); return [h.m(p), h.m(r.after.estateForTaper), h.m(r.after.iht), h.m(r.after.ihtOnPension), h.pc(r.after.estateRate, 1)]; });
     const r = h.run(EST, HEIR);
     return `
-<h2>Where the half-million line comes from</h2>
+<h2>Inheritance tax on a £500,000 estate: where the line comes from</h2>
 <p>Two allowances add up to it. Everyone has the nil-rate band of ${h.m(I.nrb)}. On top, the ${h.src('gov_rnrb', 'residence nil-rate band')} of up to ${h.m(I.rnrb)} applies when a home the person lived in, or a share of it, is inherited by children, grandchildren, step-children or their spouses. ${h.src('gov_iht', 'GOV.UK')} sets the rate above both at ${h.pc(I.rate)}. A single parent cannot borrow anyone else's bands: those of a former spouse are lost on divorce and an unmarried partner has none to pass on. So for this household the figure is fixed at ${h.m(I.nrb + I.rnrb)} until ${h.D.freeze}.</p>
 
 <h2>The pension that tips it over</h2>

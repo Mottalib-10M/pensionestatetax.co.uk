@@ -18,7 +18,7 @@ export default definePage({
   title: 'Inheritance Tax With No Children 2026/27: Nephews and Nieces',
   description: 'Inheritance tax with no children in 2026/27: why nephews, nieces and siblings get no residence band, how charity gifts help, and what a pension adds from 2027.',
   h1: 'Inheritance tax with no children: one band and a pension',
-  intro: 'Without children or grandchildren, the extra allowance for a family home never applies. A pension counted in the estate from April 2027 makes the gap wider.',
+  intro: 'Without children or grandchildren, the extra inheritance tax allowance for a family home never applies. A pension counted in the estate from April 2027 makes the gap wider.',
   resume: (h) => {
     const I = h.P.iht;
     const r = h.run(EST, HEIR);
@@ -42,7 +42,7 @@ export default definePage({
 <h2>Who counts as a direct descendant</h2>
 <p>HMRC's guidance on the ${h.src('gov_rnrb', 'residence nil-rate band')} draws the line at lineal descent: children, grandchildren and further down, step, adopted and foster children, children under a guardianship order, and the spouses or civil partners of any of them. Brothers, sisters, nephews, nieces, cousins, friends and unmarried partners fall outside. So a home left to any of them earns no residence band at all, and the estate is taxed above ${h.m(I.nrb)} alone. The ${h.src('gov_iht', 'GOV.UK summary')} of the rules gives the same threshold for anyone in that position.</p>
 
-<h2>The pension on top of a single band</h2>
+<h2>Inheritance tax with no children: the pension on top of a single band</h2>
 <p>For this kind of estate, the reform bites from the first pound. There is no residence band to absorb a modest pot, and here the nil-rate band is already filled by the flat. Every pound of the ${h.m(EST.pension)} pension adds ${h.pc(I.rate)} to the bill, so the pension alone accounts for ${h.m(r.after.iht - r.before.iht)} of extra tax. The calculator above opens on this estate; the ledger below uses the same inputs, with three heirs earning ${h.m(HEIR.heirIncome)} each and a death at ${HEIR.age}.</p>
 ${h.ledger(EST, HEIR, `Single, no descendants, three heirs, death before and from ${h.D.from}.`)}
 <p>The heirs' income tax on the pension comes after the inheritance tax, because the death is at ${h.P.pensions.deathAgeIncomeTax} or over. Brothers, sisters and nephews are taxed on it exactly as children would be.</p>

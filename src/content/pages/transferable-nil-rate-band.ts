@@ -19,7 +19,7 @@ export default definePage({
   title: 'Transferable Nil-Rate Band 2026/27: Working Out the Share',
   description: 'Transferable nil-rate band in 2026/27: how a late spouse’s unused percentage is measured, the 100 % ceiling, pre-2017 deaths and legacies to children.',
   h1: 'Transferable nil-rate band: measuring what the first spouse left unused',
-  intro: 'What passes from a late husband, wife or civil partner is a fraction of a band, not a sum of money. Getting that fraction right is most of the work.',
+  intro: 'The transferable nil-rate band that passes from a late husband, wife or civil partner is a fraction of a band, not a sum of money. Getting that fraction right is most of the work.',
   resume: (h) => {
     const I = h.P.iht;
     const u = unusedNrb(h, 100000);
@@ -81,7 +81,7 @@ ${h.table(['Legacy to others at first death', 'Nil-rate band unused', 'Nil-rate 
 <p>From ${h.D.from}, unused pension money is part of the estate, and the ${h.src('fa2026_s69', 'spouse exemption in section 69')} covers pension benefits paid to the surviving partner. A nomination is therefore one more place where the first band can be used without anyone noticing. Imagine a member with ${h.m(150000)} of savings left to the spouse and a ${h.m(240000)} pot nominated half to the spouse and half to two children. Before the change the children's half sat outside the estate and ${h.pc(pkBefore, 1)} of the band stayed unused. For a death after it, the ${h.m(pensionKids.after.chargeable)} paid to the children is chargeable, no tax is due because it fits in the band, and only ${h.pc(pkUnused, 1)} of the band is left to transfer.</p>
 <p>The second death has its own hazard. The transferred residence band is part of the survivor's band, so it is reduced by the taper once the survivor's estate, pension included, passes ${h.m(I.taperThreshold)}. The ${h.a('residence-nil-rate-band-taper', 'taper page')} works through that case, and the ${h.a('pension-left-to-spouse-inheritance-tax', 'page on pensions left to a spouse')} follows one couple from the first death to the second.</p>
 
-<h2>Making the claim at the second death</h2>
+<h2>Claiming the transferable nil-rate band at the second death</h2>
 <p>Nothing is claimed at the first death: the transfer belongs to the survivor's estate and is claimed by its personal representatives. They have to establish the late partner's estate, the will or intestacy that applied, and the chargeable legacies and gifts, which can mean finding papers from decades earlier. Couples who keep the first estate's will and valuations together with their own papers spare the second set of representatives a search. A solicitor or the representatives themselves check the figures for a real estate; this page describes the rule and does not replace that check.</p>
 `;
   },

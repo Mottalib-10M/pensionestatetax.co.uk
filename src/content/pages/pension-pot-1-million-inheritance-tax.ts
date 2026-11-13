@@ -19,7 +19,7 @@ export default definePage({
   title: '£1 Million Pension Pot and Inheritance Tax 2027: Age 75 Rule',
   description: 'Inheritance tax on a £1 million pension pot from April 2027: why dying before or after 75 changes what heirs keep, and the lump sum and death benefit allowance.',
   h1: 'A £1 million pension pot: death before 75 against after',
-  intro: 'The inheritance tax on a large pot is the same at any age. The income tax that follows depends on a single birthday.',
+  intro: 'The inheritance tax on a £1 million pension pot is the same at any age. The income tax that follows depends on a single birthday.',
   resume: (h) => {
     const N = h.P.pensions;
     const y = h.run(EST, HEIR), o = h.run(EST, OLDER);
@@ -42,7 +42,7 @@ export default definePage({
     const tested = EST.pension - y.after.ihtOnPension;
     const slow = h.run(EST, { ...OLDER, years: 10 });
     return `
-<h2>One estate, six ages at death</h2>
+<h2>A £1 million pension pot and inheritance tax: six ages at death</h2>
 <p>The engine keeps the widow's assets and changes only her age when she dies, for a death after the reform. Inheritance tax stays put. Income tax on the pension appears the moment she reaches ${N.deathAgeIncomeTax}.</p>
 ${h.table(['Age at death', 'Inheritance tax', 'Children’s income tax on the pension', 'Each child keeps'], rows, 'Widow, both bands transferred, home £400,000, savings £100,000, pension of one million pounds, two children earning £45,000, pension drawn in one tax year. Computed by the engine.', ['r', 'r', 'r', 'r'])}
 <p>The cliff is real: ${h.src('gov_inherited_pension', 'GOV.UK')} says that when the member dies under ${N.deathAgeIncomeTax}, most lump sums are tax free, and beneficiary drawdown or annuity income is tax free too; at ${N.deathAgeIncomeTax} or over, every payment is taxed at the beneficiary's marginal rate.</p>

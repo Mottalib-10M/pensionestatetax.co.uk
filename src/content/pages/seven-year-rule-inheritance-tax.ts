@@ -51,7 +51,7 @@ export default definePage({
     const big = h.run(parent(150000, 450000, 4.5), heir);
     const two = h.E.giftTax({ gift: 250000, earlier: 200000, years: 4.5 }), later = h.E.giftTax({ gift: 250000, earlier: 0, years: 5.5 });
     return `
-<h2>A clock that starts on the day of the gift</h2>
+<h2>The seven year rule for inheritance tax: a clock that starts on the day of the gift</h2>
 <p>Most gifts between people are not taxed when they are made. They sit in a kind of suspense: if the giver survives ${I.giftYears} years, the gift drops out of the inheritance tax picture for good; if not, the personal representatives have to bring it back when they value the estate. The clock runs separately for each gift, from the date it was made, so a parent who helps three children at different times has three different dates to watch. Small and regular gifts are taken out first by the exemptions described in the ${h.a('inheritance-tax-gift-allowances', 'gift allowances guide')} and the ${h.a('gifts-from-income-inheritance-tax', 'guide to gifts from income')}; what remains is what the ${h.P.iht.giftYears} year rule deals with.</p>
 <p>When gifts are brought back, they are lined up in date order and set against the nil-rate band of ${h.m(I.nrb)} oldest first. This is the step people tend to miss. A gift that is well inside the band pays no tax itself, yet it uses up band that would otherwise have sheltered the estate. The residence nil-rate band of up to ${h.m(I.rnrb)} is different: it is only available against a home passing on death to direct descendants, so gifts never touch it, and it is still there for the estate whatever was given away during life.</p>
 

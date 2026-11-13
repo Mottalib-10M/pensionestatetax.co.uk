@@ -28,7 +28,7 @@ export default definePage({
   title: 'Inheritance Tax Threshold Freeze 2026/27: Bands Held to 2031',
   description: 'Inheritance tax threshold freeze in 2026/27: Finance Act clauses that hold the bands to 2031, and an estate growing 2, 3 or 4% yearly with its pension added.',
   h1: 'The inheritance tax threshold freeze: bands held still until 2031',
-  intro: 'The tax-free bands have not moved for years and the law now keeps them where they are for the rest of the decade. A rising estate meets a fixed line, and from 2027 the pension joins it.',
+  intro: 'The inheritance tax threshold bands have not moved for years, and the law now freezes them where they are for the rest of the decade. A rising estate meets a fixed line, and from 2027 the pension joins it.',
   resume: (h) => {
     const I = h.P.iht;
     const now = single(h, 0, 'before', true), later = single(h, 0.03, 'after', true);
@@ -57,7 +57,7 @@ export default definePage({
     const w0 = widowed(h, 0, 0), w3 = widowed(h, 0.03, YEARS);
     const threshold = single(h, 0, 'after', false).threshold;
     return `
-<h2>The clauses that hold the bands still</h2>
+<h2>The clauses behind the inheritance tax threshold freeze</h2>
 <p>Left alone, the Inheritance Tax Act 1984 raises its bands with consumer prices. Parliament has told it not to, and then kept telling it. The instruction is ${h.src('fa2021_s86', 'section 86 of the Finance Act 2021')}, which has since been amended three times, each time to run for longer: by section 9 of the Finance Act 2023, by section 57 of the Finance Act 2025 and by ${h.src('fa2026_s72', 'section 72 of the Finance Act 2026')}. In its present form it disapplies indexation for the tax years up to and including ${I.frozenUntilTaxYear}, so the nil-rate band stays at ${h.m(I.nrb)} and the residence band at ${h.m(I.rnrb)} until ${h.D.freeze}.</p>
 <p>The latest year was added at Budget 2025. The ${h.src('gov_ootlar', 'overview of tax legislation and rates')} published with it lists the extension, and the Finance Act 2026 received Royal Assent on ${h.D.assent}, the same Act that brings unused pensions into the estate from ${h.D.from}. Both measures therefore arrived together, and the second makes the first bite harder.</p>
 

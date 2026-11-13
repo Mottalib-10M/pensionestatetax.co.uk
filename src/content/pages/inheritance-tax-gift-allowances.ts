@@ -20,7 +20,7 @@ export default definePage({
   title: 'Inheritance Tax Gift Allowances 2026/27: What Is Exempt',
   description: 'Inheritance tax gift allowances for 2026/27: the £3,000 annual exemption and carry-forward, £250 small gifts, wedding gifts, and which of them can be combined.',
   h1: 'Inheritance tax gift allowances: the fixed exemptions, year by year',
-  intro: 'Some gifts never count towards the estate, however soon the giver dies. They are small, fixed and renewed every tax year, and the rules on stacking them matter as much as the amounts.',
+  intro: 'Some gifts never count towards the estate for inheritance tax, however soon the giver dies. These gift allowances are small, fixed and renewed every tax year, and the rules on stacking them matter as much as the amounts.',
   resume: (h) => {
     const I = h.P.iht, W = I.wedding;
     const used = 2000, carry = I.annualExemption - used;
@@ -71,7 +71,7 @@ ${h.table(['Giver', 'Exempt wedding gift'], [
 <h2>Spouse, civil partner, charity and party</h2>
 <p>Some gifts are exempt without any ceiling. Gifts between spouses or civil partners are free of inheritance tax when both live in the UK. Gifts to charities and to political parties are exempt too. From ${h.D.from}, ${h.src('fa2026_s69', 'section 69 of the Finance Act 2026')} carries the spouse and charity exemptions over to pension benefits paid on death, so a pension that goes to a surviving partner or to a charity is outside the tax just as a legacy would be. A charity gift can also lower the rate on the rest of the estate, covered on the ${h.a('inheritance-tax-charity-rate', 'charity rate page')}.</p>
 
-<h2>Which allowances stack and which do not</h2>
+<h2>Which inheritance tax gift allowances stack and which do not</h2>
 <p>GOV.UK's rules on combining fit in three sentences. A wedding gift can be combined with any other allowance for the same person except the small gifts one. Gifts out of normal income can likewise sit on top of any allowance other than small gifts. The small gifts exemption itself only works for someone who has received nothing under another allowance. In practice that means one person can receive a wedding gift, part of the annual exemption and regular payments from income in the same year, while ${h.m(I.smallGift)} presents are kept for everybody else.</p>
 <p>Used together in a single year with a wedding in the family, the fixed allowances add up faster than the headline figures suggest. A parent with last year's annual exemption still unused, a son marrying, a granddaughter marrying and ${smalls} other relatives receiving small presents can give ${h.m(yearOne)} that year without any of it entering the estate. The calculator above adds up the same combinations for any year.</p>
 

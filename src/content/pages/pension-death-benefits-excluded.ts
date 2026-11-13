@@ -21,7 +21,7 @@ export default definePage({
   title: 'Pension Death Benefits Excluded From IHT: 2027 List',
   description: 'Pension death benefits excluded from inheritance tax from April 2027: death in service, dependants’ pensions, joint life annuities, and what still counts.',
   h1: 'Pension death benefits excluded from inheritance tax',
-  intro: 'Not every payment a scheme makes on death joins the estate. The Act names four kinds of benefit that stay out, and HMRC has drawn the edges of each one.',
+  intro: 'Not every payment a pension scheme makes on death joins the estate. The Act names four kinds of death benefit that stay out of IHT, and HMRC has drawn the edges of each one.',
   resume: (h) => {
     const I = h.P.iht;
     const a = h.run({ ...CASE, pension: OLD_POT + REFUND }, HEIR);
@@ -56,7 +56,7 @@ export default definePage({
 <p>Two words do different jobs in the new rules. An excluded benefit is removed before anything is added up: it is not notional pension property, it adds nothing to the estate's value, and it plays no part in any threshold. An exempt benefit is counted first and relieved afterwards. ${h.src('fa2026_s69', 'Section 69 of the Finance Act 2026')} extends the spouse, civil partner and charity exemptions to pension benefits, so a pot nominated to a widow or to a charity carries no inheritance tax, but its value is still in the estate.</p>
 <p>The difference shows up at the edges. The residence nil-rate band is tapered on the estate before exemptions, so a pension left to a spouse still counts towards the ${h.m(I.taperThreshold)} test, while a death in service lump sum does not. The ${h.src('fa2026_s68', 'withholding rules in section 68')} also leave both excluded and exempt benefits alone: a scheme told to hold back half of a beneficiary's entitlement does not hold back either.</p>
 
-<h2>The four excluded benefits, one by one</h2>
+<h2>The four pension death benefits excluded from IHT, one by one</h2>
 <p>The list in ${h.src('fa2026_s66', 'section 150A(6)')} is short and closed. Anything not on it that a scheme can pay on death is in the estate.</p>
 <p><strong>Dependants' scheme pensions.</strong> This is the classic widow's, widower's or child's pension of a defined benefit scheme: a regular income the scheme pays to a dependant after the member's death. HMRC's ${h.src('gov_tiin', 'impact note')} confirms that dependants' scheme pensions from defined benefit and collective money purchase arrangements are outside the change. They have always been taxed as the dependant's income and still are.</p>
 <p><strong>Trivial commutation of a dependants' pension.</strong> When a dependant's pension is small, a scheme can pay it as a one-off lump sum instead. If that lump sum extinguishes the dependants' scheme pension, it is excluded in the same way as the pension it replaces. The exclusion follows the pension; a lump sum that is not replacing one does not qualify.</p>

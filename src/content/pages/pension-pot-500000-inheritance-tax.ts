@@ -18,7 +18,7 @@ export default definePage({
   title: 'Pension Pot of £500,000: Inheritance Tax 2027 and Heirs',
   description: 'Pension pot of £500,000 and inheritance tax from April 2027: the estate’s tax, then each heir’s income tax on it at the higher rate, and what each one keeps.',
   h1: 'A £500,000 pension pot: two taxes, then what each heir keeps',
-  intro: 'When the pot is the largest thing someone owns, it now pays its share of inheritance tax. If they die at 75 or over, the children pay income tax on what remains.',
+  intro: 'When a pension pot of £500,000 is the largest thing someone owns, it now pays its share of inheritance tax. If they die at 75 or over, the children pay income tax on what remains.',
   resume: (h) => {
     const r = h.run(EST, HEIR), a = r.heirsAfter, b = r.heirsBefore;
     return `A large pension left by someone who dies at ${h.P.pensions.deathAgeIncomeTax} or over is taxed twice from ${h.D.from}. Take a single mother with a ${h.m(EST.home)} home, ${h.m(EST.savings)} of savings and ${h.m(EST.pension)} still invested in her pension, dying at ${HEIR.age} and leaving everything to two children who each earn ${h.m(HEIR.heirIncome)}. Before the reform her estate was ${h.m(r.before.estateForTaper)} and paid nothing. From that date it is ${h.m(r.after.estateForTaper)}, owes ${h.m(r.after.iht)} of inheritance tax, and ${h.m(r.after.ihtOnPension)} of that is charged on the pension. Each child's half of the pot is ${h.m(a.pensionShare)}; after ${h.m(a.ihtPensionShare)} of inheritance tax, ${h.m(a.taxablePension)} is taxable as their income. Drawn in a single tax year on top of a salary, it costs each of them ${h.m(a.incomeTaxShare)} of income tax. Each child ends up with ${h.m(a.pensionKept)} from the pension and ${h.m(a.total)} in all, against ${h.m(b.total)} under the old rules. Section 70 of the Finance Act 2026 lets the inheritance tax borne come off the taxable amount, which stops the two taxes from overlapping in full.`;
@@ -45,7 +45,7 @@ export default definePage({
     const yrs = [1, 3, 5, 10];
     const spread = yrs.map((y) => { const x = h.run(EST, { ...HEIR, years: y }).heirsAfter; return [String(y), h.m(x.incomeTaxShare), h.m(x.pensionKept), h.pc(x.pensionTaxRate, 1)]; });
     return `
-<h2>Why the pot carries most of the bill</h2>
+<h2>Why a £500,000 pension pot carries most of the bill</h2>
 <p>Inheritance tax is charged on the estate as a whole and then shared out in proportion to value. Here the pension is ${h.pc(EST.pension / r.after.estateForTaper, 0)} of the estate counted from ${h.D.from}, so it carries that share of the ${h.m(r.after.iht)}. The house and savings would have fitted inside the ${h.m(r.after.threshold)} of bands on their own; the pot is what creates the tax. ${h.src('fa2026_s66', 'Section 150A')} treats the unused fund as the mother's property just before death, even though the scheme pays it directly to the children.</p>
 
 <h2>One child's share, step by step</h2>

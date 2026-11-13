@@ -17,7 +17,7 @@ export default definePage({
   title: 'Paying Inheritance Tax on Pensions: Who Is Liable in 2027',
   description: 'Who pays inheritance tax on pensions from April 2027: executors and beneficiaries are liable, schemes can withhold half of a benefit or pay HMRC under a notice.',
   h1: 'Who pays the inheritance tax on a pension from 2027',
-  intro: 'The executors report the pension and answer for the tax, yet the money sits with the scheme. The Finance Act 2026 gives them two tools to bridge that gap.',
+  intro: 'The executors report the pension and answer for the inheritance tax, yet the money for paying it sits with the scheme. The Finance Act 2026 gives them two tools to bridge that gap.',
   resume: (h) => {
     const I = h.P.iht, N = h.P.pensions;
     const r = h.run(CASE, HEIR);
@@ -56,7 +56,7 @@ export default definePage({
 <p>A representative who is liable for tax on money they cannot reach needs a way to stop it leaving. ${h.src('fa2026_s68', 'Section 68')} provides one in new section 226A. The personal representatives, or people who expect to become them, can give the scheme administrator a withholding notice. While it has effect, the scheme may pay no more than ${h.pc(N.withholdShare)} of any person's benefit entitlement. The rest stays in the scheme.</p>
 <p>The notice cannot run indefinitely. It ends when the inheritance tax attributable to the pension has been paid, when the representatives withdraw it, or at the latest ${N.withholdMonths} months after the end of the month in which the member died. For a death in January, that limit falls at the end of April in the following year. Excluded benefits, such as a death in service lump sum, and exempt benefits, such as a pension paid to a surviving spouse, are not withheld at all, since there is no tax on them to protect.</p>
 
-<h2>Paying from the pot: the payment notice</h2>
+<h2>Paying inheritance tax on pensions from the pot: the payment notice</h2>
 <p>Withholding protects the tax but does not pay it. New section 226B, known as the Pensions Direct Payment Scheme, does. Either the personal representatives or the beneficiary can give the scheme administrator a payment notice requiring it to pay HMRC the inheritance tax attributable to the pension. The amount must be at least ${h.m(N.directPaymentMin)}, and the administrator has ${N.directPaymentDays} days, starting with the day the notice is received, to pay. The beneficiary's benefits are then reduced on a just and reasonable basis.</p>
 <p>Two limits matter in practice. ${h.src('gov_tech_note', 'HMRC’s technical note')} points out that money already used to buy an annuity with an insurance company is no longer in the scheme, so it cannot be used to meet a payment notice. And paying through the scheme does not change the beneficiary's later income tax: under ${h.src('fa2026_s70', 'section 70')}, inheritance tax paid by the scheme under a payment notice is deducted from taxable pension income in the same way as tax the beneficiary paid personally, which the ${h.a('inheritance-tax-on-pensions-after-75', 'page on pensions after 75')} works through.</p>
 

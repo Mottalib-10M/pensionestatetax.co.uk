@@ -17,7 +17,7 @@ export default definePage({
   title: 'Inheritance Tax Threshold 2026/27: £325,000 to £1 Million',
   description: 'Inheritance tax threshold 2026/27: £325,000 each, up to £500,000 with a home to children, £1 million for a couple, frozen to 2031, pensions counted from 2027.',
   h1: 'Inheritance tax threshold in 2026/27: what an estate can pass on tax free',
-  intro: 'The headline figure is the same as it has been for years. What has changed is how many estates reach it, and from April 2027 what is added up to test it.',
+  intro: 'The headline inheritance tax threshold is the same as it has been for years. What has changed is how many estates reach it, and from April 2027 what is added up to test it.',
   resume: (h) => {
     const I = h.P.iht;
     const pen = h.run({ home: 300000, savings: 150000, pension: 250000, status: 'single', homeToDescendants: true, heirs: 2 }, { age: 70, heirIncome: 0 });
@@ -60,7 +60,7 @@ export default definePage({
 <h2>A couple: up to ${h.m(2 * (I.nrb + I.rnrb))}</h2>
 <p>Spouses and civil partners cannot pool their bands while both are alive, but the second estate inherits the unused percentage of the first. When the first partner leaves everything to the survivor, nothing of either band is used, and the survivor's estate can claim a second nil-rate band and a second residence band. With a home worth at least ${h.m(2 * I.rnrb)} left to children, the threshold for that second estate reaches ${h.m(2 * (I.nrb + I.rnrb))}. Legacies to children at the first death use up part of the first band and reduce the transfer, as the ${h.a('transferable-nil-rate-band', 'transferable band page')} shows with figures.</p>
 
-<h2>The threshold by situation</h2>
+<h2>The inheritance tax threshold by situation</h2>
 <p>The table runs the site's engine on a series of estates, all large enough to use their full bands. It shows how much nil-rate band and residence band each one gets for a death in 2026/27 or later under the frozen figures.</p>
 ${h.table(['Situation', 'Nil-rate band', 'Residence band', 'Total threshold'], rows, 'Estates of £1,500,000 unless stated; home of £400,000 unless stated. Computed by the engine.', ['l', 'r', 'r', 'r'])}
 <p>The last two rows show the taper: once the estate passes ${h.m(I.taperThreshold)}, the residence band falls by ${h.m(1)} for every ${h.m(I.taperDivisor)} above it, transferred band included. The ${h.a('residence-nil-rate-band-taper', 'taper guide')} has the exact points where it runs out. Use the calculator at the top of this page to enter your own estate and home.</p>

@@ -18,7 +18,7 @@ export default definePage({
   title: 'Pension Left to a Spouse: Inheritance Tax Rules for 2027',
   description: 'Pension left to a spouse or civil partner from April 2027: exempt at first death, then taxed in the survivor’s estate. A couple followed to the second death.',
   h1: 'Pension left to a spouse or civil partner: the two deaths',
-  intro: 'A pension that passes to a husband, wife or civil partner is free of inheritance tax when it passes. The question is what happens to it next.',
+  intro: 'A pension left to a spouse or civil partner is free of inheritance tax when it passes. The question is what happens to it next.',
   resume: (h) => {
     const I = h.P.iht;
     const a = first(h), b = second(h);
@@ -45,7 +45,7 @@ export default definePage({
     const leftPct = Math.max(0, I.nrb - split.after.chargeable) / I.nrb;
     const higher = P.incomeTax.ruk.bands[1].rate;
     return `
-<h2>Why the first death usually costs nothing</h2>
+<h2>Pension left to a spouse: why the first death usually costs nothing</h2>
 <p>The exemption between spouses is the oldest relief in the inheritance tax code, and it covers everything that passes from one partner to the other: the home, savings, shares and, after the Finance Act 2026, pension money too. The ${h.src('fa2026_s69', 'amendments made by section 69')} add pension benefits to the list of property that qualifies when the person who becomes entitled is the member's spouse or civil partner. So the change of ${h.D.from} brings David's pension into his estate under ${h.src('fa2026_s66', 'section 150A')}, and the same Act lets it out again because Margaret is the one who takes it. His estate is worth ${h.m(a.after.estateForTaper)} for the purposes of the residence band taper, the spouse exemption covers ${h.m(a.after.exemptSpouse)} of it, and the chargeable amount is ${h.m(a.after.chargeable)}.</p>
 <p>Two conditions are worth reading closely. The exemption applies to what the survivor actually receives, so a nomination form naming the spouse is not enough if the scheme administrator, using its discretion, pays someone else. And the couple must be married or in a civil partnership at the date of death. Long cohabitation does not count, as the ${h.a('inheritance-tax-unmarried-couples', 'guide for unmarried couples')} shows with figures.</p>
 

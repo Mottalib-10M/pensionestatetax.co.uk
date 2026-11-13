@@ -18,7 +18,7 @@ export default definePage({
   title: 'Inheritance Tax on a £2 Million Estate: Taper Rules 2027',
   description: 'Inheritance tax on a £2 million estate in 2026/27: where the residence band taper starts, and how a pension counted from April 2027 removes part or all of it.',
   h1: 'Inheritance tax on a £2 million estate: the taper line',
-  intro: 'Two million pounds is not a tax-free limit. It is where the residence band begins to melt away, and pension money now counts towards it.',
+  intro: 'For inheritance tax, a £2 million estate is not a tax-free limit. It is where the residence band begins to melt away, and pension money now counts towards it.',
   resume: (h) => {
     const I = h.P.iht;
     const r = h.run(EST, HEIR);
@@ -38,7 +38,7 @@ export default definePage({
     const rows = pots.map((p) => { const r = h.run({ ...EST, pension: p }, HEIR); return [h.m(p), h.m(r.after.estateForTaper), h.m(r.after.rnrb), h.m(r.after.iht), h.m(r.after.iht - r.before.iht)]; });
     const zone = I.rate * (1 + 1 / I.taperDivisor);
     return `
-<h2>The taper explained with real money</h2>
+<h2>Inheritance tax on a two million pound estate: the taper explained with real money</h2>
 <p>The ${h.src('gov_rnrb', 'residence nil-rate band')} does not vanish at once on a large estate: it shrinks. The rule is simple arithmetic: take the estate after debts, subtract ${h.m(I.taperThreshold)}, halve the result, and remove that much from the residence band, including any band transferred from a late spouse. The nil-rate band is untouched. Because the measure is taken before the spouse and charity exemptions, a generous will does not move the estate back under the line.</p>
 
 <h2>A pension that switches the band off</h2>

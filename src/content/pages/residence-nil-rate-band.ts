@@ -13,7 +13,7 @@ export default definePage({
   title: 'Residence Nil Rate Band 2026/27: Rules, Limits and Examples',
   description: 'Residence nil rate band 2026/27: up to £175,000 when a home goes to direct descendants, capped at its value, tapered above £2 million, passed to a spouse.',
   h1: 'Residence nil rate band: the extra allowance for a home left to family',
-  intro: 'The second band in inheritance tax only works for one asset and one group of people. Most of its rules are about who those people are and what the asset is worth.',
+  intro: 'The residence nil rate band, the second band in inheritance tax, only works for one asset and one group of people. Most of its rules are about who those people are and what the asset is worth.',
   resume: (h) => {
     const I = h.P.iht;
     const flat = h.E.residenceBand({ estate: 500000, home: 100000, homeToDescendants: true });
@@ -78,7 +78,7 @@ ${h.table(['Case', 'Residence band', 'Inheritance tax'], rows, 'Computed by the 
 <p>The residence band is an allowance of the estate at death. It never applies to lifetime gifts, so a parent who hands the house to the children years before dying gets no residence band on that gift: if death follows within ${h.P.iht.giftYears} years, the gift is set against the ordinary nil-rate band instead, with taper relief where it applies. Handing over the deeds while carrying on living in the house without paying rent achieves even less. GOV.UK treats that as a gift with reservation, and the home stays in the estate as if it had never been given. The ${h.a('seven-year-rule-inheritance-tax', '${h.P.iht.giftYears} year rule page')} sets out the taper on gifts.</p>
 <p>The band also plays no part in the ${h.pc(I.charityRate)} charity rate test. When the baseline amount is worked out, the nil-rate band left is deducted but the residence band is not, so a large home left to children does not make it easier to reach the ${h.pc(I.charityTest)} share.</p>
 
-<h2>Passing the unused band to a spouse</h2>
+<h2>Passing the unused residence nil rate band to a spouse</h2>
 <p>The last row follows a couple. The husband dies first with an estate of ${h.m(2100000)} and leaves the home to his wife. His band is tapered to ${h.m(first.rnrb)} and none of it is used, because nothing went to descendants. Under the ${h.src('gov_rnrb_transfer', 'transfer rules')}, ${h.pc(share, 1)} of his band is unused, measured against the full ${h.m(I.rnrb)}. When the widow dies with ${h.m(1800000)}, a ${h.m(500000)} home going to the children, her estate has her own band plus ${h.pc(share, 1)} of the band then in force: ${h.m(wife.rnrb)} in all. The ${h.a('transferable-nil-rate-band', 'transferable band guide')} covers the percentage in more detail.</p>
 
 <h2>The pension does not earn the band, but it can take it away</h2>

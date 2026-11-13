@@ -84,7 +84,7 @@ ${h.table(['Position', 'Estate', `Rate on the next ${h.m(1000)}, single`, 'Rate,
 <h2>What the figure includes and leaves out</h2>
 <p>Excluded pension benefits never count: a dependants' scheme pension, a joint life annuity bought with the member's own annuity, and death in service benefits from a job held at death. Debts reduce the figure, including a mortgage on the home. Money a person has spent is no longer in the estate. Beyond that, every asset counts at its value at death, wherever it goes and whatever relief it attracts. ${h.src('gov_iht', 'GOV.UK’s overview')} sets the taper alongside the other thresholds; the ${h.a('inheritance-tax-2-million-estate', `page on an estate of ${h.m(I.taperThreshold)}`)} works through one complete estate at that level.</p>
 
-<h2>Reading the taper for your family</h2>
+<h2>Reading the residence nil rate band taper for your family</h2>
 <p>The taper is mechanical, but estates near the threshold are often the ones where several rules meet: a business or farm with relief, a pension nominated to a spouse, a home worth more or less than the band. The calculator gives the cost of the taper for an estate value and whether a late partner's band was transferred. It does not replace a valuation of the estate, and it is not advice: the executors, a solicitor or a regulated adviser look at a real case, including how the first death of a couple affects the second.</p>
 `;
   },

@@ -26,7 +26,7 @@ export default definePage({
   card: 'From 2027 both sit in the estate. What an heir keeps from £100,000 in each, at each age and income.',
   title: 'Pension or ISA for Inheritance Tax: What Heirs Keep, 2027',
   description: 'Pension or ISA for inheritance tax from April 2027: both count in the estate, but after 75 the pension adds the heir’s income tax. What £100,000 in each leaves.',
-  h1: 'Pension or ISA: what an heir keeps of each from 2027',
+  h1: 'Pension or ISA for inheritance tax: what an heir keeps from 2027',
   intro: 'The reform removes the pension’s exemption from inheritance tax, which used to settle the comparison. What is left is a difference in income tax.',
   resume: (h) => {
     const I = h.P.iht, N = h.P.pensions;
@@ -72,7 +72,7 @@ export default definePage({
       ['Drawn by the member over five tax years, kept in an ISA or savings', h.m(t5), h.m(viaIsa(X - t5))],
     ];
     return `
-<h2>From 2027 both sit in the estate</h2>
+<h2>Pension or ISA: from 2027 both sit in the estate for inheritance tax</h2>
 <p>The old comparison was lopsided. An ISA has always been part of its owner's estate, so ${h.m(X)} in a stocks and shares ISA above the tax-free bands lost ${h.m(X - gain(h, BASE, 'isa', 80, 60000))} to inheritance tax at death. The same ${h.m(X)} in a pension usually lost nothing, because a discretionary scheme's death benefits were outside the estate. ${h.src('fa2026_s66', 'Section 66 of the Finance Act 2026')} ends that for deaths on or after ${h.D.from}: the unused pension is now notional pension property, added to the estate like any other asset, measured for the residence band taper, and charged at the same rate.</p>
 <p>That leaves the two on equal terms for inheritance tax. Neither has a separate allowance, neither escapes the frozen bands described on ${h.src('gov_iht', 'GOV.UK')}, and both benefit from the same exemptions when left to a spouse, a civil partner or a charity. What still separates them is what happens to the heir after the estate is settled.</p>
 

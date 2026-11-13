@@ -20,7 +20,7 @@ export default definePage({
   title: 'Inheritance Tax for Unmarried Couples in 2026/27 and 2027',
   description: 'Inheritance tax for unmarried couples: no exemption between partners, no band transfer, and from April 2027 a pension left to a partner is taxed. 2026/27 rules.',
   h1: 'Inheritance tax for unmarried couples and cohabiting partners',
-  intro: 'Living together for decades changes nothing in inheritance tax law. A partner who is not a spouse or civil partner inherits like anyone else, and from 2027 that includes the pension.',
+  intro: 'For unmarried couples, living together for decades changes nothing in inheritance tax law. A partner who is not a spouse or civil partner inherits like anyone else, and from 2027 that includes the pension.',
   resume: (h) => {
     const I = h.P.iht;
     const a = alex(h), m = married(h);
@@ -46,7 +46,7 @@ export default definePage({
       ['Married or civil partners, everything to Sam', h.m(m.before.iht), h.m(m.after.iht), h.m(m.after.ihtOnPension)],
     ];
     return `
-<h2>No exemption between partners</h2>
+<h2>No inheritance tax exemption for unmarried couples</h2>
 <p>The spouse exemption is what makes the first death in most married households tax free. It has never extended to couples who live together without marrying or registering a civil partnership, and nothing in the 2026 legislation changes that. ${h.src('gov_iht', 'GOV.UK')} describes the exemption for what is left to a spouse or civil partner, and a cohabiting partner falls outside both words. In practice an estate left to a cohabiting partner is treated as if it were left to a friend. Everything above the nil-rate band of ${h.m(I.nrb)} is taxed at ${h.pc(I.rate)}, and the partner's need for a home or an income is not part of the calculation.</p>
 <p>Owning the home together does not create an exemption either. What counts is the share the partner who died owned: a half share of a house worth ${h.m(600000)} is ${h.m(300000)} in the estate, and that share is taxed like any other asset when it passes to the survivor.</p>
 
